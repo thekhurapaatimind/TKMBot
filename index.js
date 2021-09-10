@@ -65,15 +65,30 @@ async function connectWA() {
 
                             case "newuser":
                                 if(cmdContent.trim()) {
+
                                     let data = cmdContent.trim();
-  
-                                    // Create a file .
-                                    fs.writeFile(data+'.txt', data, (err) => {
-                                        
-                                        // In case of a error throw err.
-                                        if (err) throw err;
-                                    })
-                                    const response = await conn.sendMessage(msg.key.remoteJid, "Hey "+cmdContent.trim()+"! Your Entry was Successful!", MessageType.text);
+                                    fs.readFile("./scores/"+data+".txt", (err, data1) => {
+                                        if(err) {
+                                            // Create a file .
+                                            fs.writeFile("./scores/"+data+'.txt', data, (err) => {
+                                                
+                                                // In case of a error throw err.
+                                                if (err) throw err;
+                                            })
+                                            conn.sendMessage(msg.key.remoteJid, "Hey "+data+"! Your Entry was Successful!", MessageType.text, {quoted: msg} ).then((res) => {
+                                                console.log("Created new file.");
+                                            }).catch(msgSendError);
+                                            //const response = await conn.sendMessage(msg.key.remoteJid, "Hey "+data+"! Your Entry was Successful!", MessageType.text);
+                                    
+                                        }
+                                        else {
+                                            conn.sendMessage(msg.key.remoteJid, "Welcome Back "+data+"! \nYou have already registered!", MessageType.text, {quoted: msg} ).then((res) => {
+                                                console.log("Existing User.");
+                                            }).catch(msgSendError);
+                                            
+                                            //const response = await conn.sendMessage(msg.key.remoteJid, "Welcome Back "+data+"! \nYou are already registered!", MessageType.text);
+                                        }
+                                    });
                                 }
                                 else {
                                     conn.sendMessage(msg.key.remoteJid, "*!newuser syntax:*\n\n!newuser_<Your Name>", MessageType.text, {quoted: msg} ).then((res) => {

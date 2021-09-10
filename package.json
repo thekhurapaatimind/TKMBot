@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/thekhurapaatimind/TKMBot#readme",
   "dependencies": {
-    "@adiwajshing/baileys": "^3.5.2"
+    "@adiwajshing/baileys": "^3.5.2",
+    "xhr2": "^0.2.1"
   }
 }
