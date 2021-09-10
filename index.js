@@ -61,6 +61,39 @@ async function connectWA() {
                                         console.log("Sent myself command help message.");
                                     }).catch(msgSendError);
                                 }
+                                break;
+
+                            case "newuser":
+                                if(cmdContent.trim()) {
+                                    let data = cmdContent.trim();
+  
+                                    // Create a file .
+                                    fs.writeFile(data+'.txt', data, (err) => {
+                                        
+                                        // In case of a error throw err.
+                                        if (err) throw err;
+                                    })
+                                    const response = await conn.sendMessage(msg.key.remoteJid, "Hey "+cmdContent.trim()+"! Your Entry was Successful!", MessageType.text);
+                                }
+                                else {
+                                    conn.sendMessage(msg.key.remoteJid, "*!newuser syntax:*\n\n!newuser_<Your Name>", MessageType.text, {quoted: msg} ).then((res) => {
+                                        console.log("Sent newuser command help message.");
+                                    }).catch(msgSendError);
+                                }
+                                break;
+                                case "helpme":
+                                    // WIP
+                                    
+                                    fs.readFile("./txt/help.txt", (err, data) => {
+                                        if(err) {console.log("error in opening file: " + err);}
+                                        else {
+                                            conn.sendMessage(msg.key.remoteJid, data.toString(), MessageType.text).then((res) => {
+                                                console.log("Sent commands list.");
+                                            }).catch(msgSendError);
+                                        }
+                                    });
+                                    break;        
+                                    
                         }
                     }
 

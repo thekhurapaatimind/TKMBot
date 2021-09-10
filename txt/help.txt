@@ -1,0 +1,6 @@
+*TKM-Bot*
+
+_Commands:_
+*- !helloBot:* Simple command to get a greeting from Bot (to check if bot is working, for example).
+*- !myself_<YourName>:* Command greets the user with his/her name.
+*- !helpme:* Lists all the available commands of the bot.
