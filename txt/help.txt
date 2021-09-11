@@ -1,6 +1,13 @@
 *TKM-Bot*
 
 _Commands:_
-*- !helloBot:* Simple command to get a greeting from Bot (to check if bot is working, for example).
-*- !myself_<YourName>:* Command greets the user with his/her name.
-*- !helpme:* Lists all the available commands of the bot.
+*- #helloBot:* Simple command to get a greeting from Bot (to check if bot is working, for example).
+*- #byeBot:* Simple command to say good bye to the bot..
+*- #myself<space>YourName:* Command greets the user with his/her name.
+*- #hbd<space>Name:* Bot wishes happy birthday to the person.
+*- #sed:* Will give a witty reply to cheer your SedLife!. Remember, it's the bot who's replying, don't blame me :)
+*- #gay<space>Name:* This is a Gay Meter. Tells how much gay the person is.
+*- #devdas<space>Name:* This is a Majnu Meter. Tells how much devdas the person is.
+*- #helpme:* Lists all the available commands of the bot.
+
+_All the commands are case in-sensitive but make sure you dont use a space between '#' and the command._
