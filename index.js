@@ -64,9 +64,10 @@ async function connectWA() {
                                  break;
 
                             case "hellotkm-bot":
-                                console.log("Received greeting");
+                                console.log("Received greeting from BEWA bhai!");
                                 response = await conn.sendMessage(msg.key.remoteJid, "!helloBEWAbot", MessageType.text);
-                                 break;
+                                console.log("Sent greetings to BEWA bhai!"); 
+                                break;
 
                             case "sed":
                                 console.log("Received sorrow");
@@ -266,10 +267,16 @@ async function connectWA() {
                     let msgText = msg.message.extendedTextMessage.text;
                     if(msgText.startsWith("#")) {
                         // console.log("triggered");
-                        const cmd = msgText.split(" ")[0].substring(1);
+                        const cmd = msgText.split(" ")[0].substring(1).toLowerCase();
                         let cmdContent = msgText.substring(msgText.indexOf(" ") + 1);
                         // console.log(cmd);
                         switch(cmd) {
+                            case "hellotkm-bot":
+                                console.log("Received greetings from BEWA bhai!");
+                                response = await conn.sendMessage(msg.key.remoteJid, "!helloBEWAbot", MessageType.text);
+                                console.log("Sent greetings to BEWA bhai!");
+                                break;
+
                             case "sticker":
                                 console.log("Received request for converting tagged sticker to image.")
                                 let messId = msg.message.extendedTextMessage.contextInfo.stanzaId;
