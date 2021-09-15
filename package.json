@@ -21,7 +21,6 @@
   "homepage": "https://github.com/thekhurapaatimind/TKMBot#readme",
   "dependencies": {
     "@adiwajshing/baileys": "^3.5.2",
-    "@open-wa/wa-automate": "^4.20.8",
     "gm": "^1.23.1",
     "nodemon": "^2.0.12",
     "xhr2": "^0.2.1"
