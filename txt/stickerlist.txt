@@ -1,0 +1,25 @@
+*TKM-Bot*
+*Stickers Currently Available :*
+
+_Commands:_
+- *#burahua*
+- *#emb*
+- *#facepalm*
+- *#gn*
+- *#haanvro*
+- *#hand*
+- *#hehe*
+- *#hempy*
+- *#isee*
+- *#koini*
+- *#namaste*
+- *#nibbi*
+- *#party*
+- *#sabmaloom*
+- *#smug*
+- *#smuggrin*
+- *#sunkarburalaga*
+- *#themks*
+- *#ufff*
+
+_All the commands are case in-sensitive but make sure you dont use a space between '#' and the command._

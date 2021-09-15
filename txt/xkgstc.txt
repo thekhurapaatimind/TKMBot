@@ -1,0 +1,11 @@
+*TKM-Bot*
+*XKG Stickers Currently Available :*
+
+_Commands:_
+- *#bhanda*
+- *#gkm*
+- *#hmm*
+- *#srsi*
+- *#yeah*
+
+_All the commands are case in-sensitive but make sure you dont use a space between '#' and the command._
