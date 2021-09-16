@@ -118,6 +118,19 @@ async function connectWA() {
                                 }
                                 break;
 
+                                case "who":
+                                    console.log("answered the who question");
+                                    const users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
+                                    if (cmdContent.trim()) {
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
+                                    }
+                                    else {
+                                        conn.sendMessage(msg.key.remoteJid, "*#who syntax:*\n\n#who_<Your Question>", MessageType.text, { quoted: msg }).then((res) => {
+                                            console.log("Sent who command help message.");
+                                        }).catch(msgSendError);
+                                    }
+                                    break;
+
                             case "myself":
                                 // console.log("Command content: \"" + cmdContent + "\"");
                                 if (cmdContent.trim()) {
@@ -240,6 +253,7 @@ async function connectWA() {
                             case "helpme":
                             case "stickerlist":
                             case "xkgstc":
+                            case "helpxkg":
                                 // WIP
 
                                 fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
@@ -506,6 +520,19 @@ async function connectWA() {
                                         }).catch(msgSendError);
                                     }
                                     break;
+
+                                    case "who":
+                                        console.log("answered the who question");
+                                        const users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
+                                        if (cmdContent.trim()) {
+                                            response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
+                                        }
+                                        else {
+                                            conn.sendMessage(msg.key.remoteJid, "*#who syntax:*\n\n#who_<Your Question>", MessageType.text, { quoted: msg }).then((res) => {
+                                                console.log("Sent who command help message.");
+                                            }).catch(msgSendError);
+                                        }
+                                        break;
 
 
                         }

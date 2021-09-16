@@ -1,0 +1,10 @@
+*TKM-Bot*
+*XKG Exclusive Commands :*
+
+_Commands:_
+*- #who<space>Your_Question:* Answers with any random XKG member.
+*- #xkgstc:* Lists all the xkg-only stickers currently available on the bot.
+*- #helpxkg:* Lists all the available xkg-only commands of the bot.
+*- #helpme:* Lists all the available commands of the bot.
+
+_All the commands are case in-sensitive but make sure you dont use a space between '#' and the command._
