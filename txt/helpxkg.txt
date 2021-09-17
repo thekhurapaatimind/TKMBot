@@ -2,9 +2,18 @@
 *XKG Exclusive Commands :*
 
 _Commands:_
+
 *- #who<space>Your_Question:* Answers with any random XKG member.
+-> _Variation_ : 
+#who<space>Question<Space>Gender : 
+Use b/m for boy's list, g/f for girl's list;
+Sorry, we do not have any 3rd gender :(
+Example: #who is fit b
+
 *- #xkgstc:* Lists all the xkg-only stickers currently available on the bot.
+
 *- #helpxkg:* Lists all the available xkg-only commands of the bot.
+
 *- #helpme:* Lists all the available commands of the bot.
 
 _All the commands are case in-sensitive but make sure you dont use a space between '#' and the command._

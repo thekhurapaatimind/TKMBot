@@ -118,18 +118,29 @@ async function connectWA() {
                                 }
                                 break;
 
-                                case "who":
-                                    console.log("answered the who question");
-                                    const users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
-                                    if (cmdContent.trim()) {
-                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
+                            case "who":
+                                console.log("answered the who question");
+
+                                if (cmdContent.trim()) {
+                                    if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'b' || cmdContent.charAt(cmdContent.length - 1) == 'B' || cmdContent.charAt(cmdContent.length - 1) == 'm' || cmdContent.charAt(cmdContent.length - 1) == 'M')) {
+                                        var users = ["Abhinav", "Aryan", "Arjun", "Ayush", "Govind", "Jaskaran", "Saral", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil"]
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 12)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
+                                    }
+                                    else if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'g' || cmdContent.charAt(cmdContent.length - 1) == 'G' || cmdContent.charAt(cmdContent.length - 1) == 'f' || cmdContent.charAt(cmdContent.length - 1) == 'F')) {
+                                        var users = ["Anushka", "Bhavya", "Riya!", "Subha", "Sreyashi"]
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 5)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
                                     }
                                     else {
-                                        conn.sendMessage(msg.key.remoteJid, "*#who syntax:*\n\n#who_<Your Question>", MessageType.text, { quoted: msg }).then((res) => {
-                                            console.log("Sent who command help message.");
-                                        }).catch(msgSendError);
+                                        var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
                                     }
-                                    break;
+                                }
+                                else {
+                                    conn.sendMessage(msg.key.remoteJid, "*#who syntax:*\n\n#who_<Your Question>", MessageType.text, { quoted: msg }).then((res) => {
+                                        console.log("Sent who command help message.");
+                                    }).catch(msgSendError);
+                                }
+                                break;
 
                             case "myself":
                                 // console.log("Command content: \"" + cmdContent + "\"");
@@ -270,20 +281,20 @@ async function connectWA() {
                                 if (cmdContent.trim()) {
                                     var find = cmdContent.trim().split(" ")[0].toUpperCase();
                                     var name = (cmdContent.indexOf(" ") < 0) ? "" : cmdContent.substring(cmdContent.indexOf(" ") + 1);
-                                    if(name==""||name==" ") name = "SENDER";
+                                    if (name == "" || name == " ") name = "SENDER";
                                     if (name == "JASKARAN" || name == "JSK") {
                                         const percentage = Math.floor(Math.random() * 11) + 91;
-                                        await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find +"!", MessageType.text, { quoted: msg });
+                                        await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find + "!", MessageType.text, { quoted: msg });
 
                                     }
                                     else if (input == "ABHINAV" || input == "TKM" || input == "ABHEENAV") {
                                         const percentage = Math.floor(Math.random() * 11);
-                                        await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find +"!", MessageType.text, { quoted: msg });
+                                        await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find + "!", MessageType.text, { quoted: msg });
 
                                     }
                                     else {
                                         const percentage = Math.floor(Math.random() * 100);
-                                        await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find +"!", MessageType.text, { quoted: msg });
+                                        await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find + "!", MessageType.text, { quoted: msg });
                                     }
                                 }
                                 else {
@@ -493,46 +504,57 @@ async function connectWA() {
                                     }
                                 });
                                 break;
-                            
-                                case "meter":
-                                    if (cmdContent.trim()) {
-                                        var find = cmdContent.trim().split(" ")[0].toUpperCase();
-                                        var name = (cmdContent.indexOf(" ") < 0) ? "" : cmdContent.substring(cmdContent.indexOf(" ") + 1);
-                                        if(name==""||name==" ") name = "SENDER";
-                                        if (name == "JASKARAN" || name == "JSK") {
-                                            const percentage = Math.floor(Math.random() * 11) + 91;
-                                            await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find +"!", MessageType.text, { quoted: msg });
-    
-                                        }
-                                        else if (input == "ABHINAV" || input == "TKM" || input == "ABHEENAV") {
-                                            const percentage = Math.floor(Math.random() * 11);
-                                            await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find +"!", MessageType.text, { quoted: msg });
-    
-                                        }
-                                        else {
-                                            const percentage = Math.floor(Math.random() * 100);
-                                            await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find +"!", MessageType.text, { quoted: msg });
-                                        }
+
+                            case "meter":
+                                if (cmdContent.trim()) {
+                                    var find = cmdContent.trim().split(" ")[0].toUpperCase();
+                                    var name = (cmdContent.indexOf(" ") < 0) ? "" : cmdContent.substring(cmdContent.indexOf(" ") + 1);
+                                    if (name == "" || name == " ") name = "SENDER";
+                                    if (name == "JASKARAN" || name == "JSK") {
+                                        const percentage = Math.floor(Math.random() * 11) + 91;
+                                        await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find + "!", MessageType.text, { quoted: msg });
+
+                                    }
+                                    else if (input == "ABHINAV" || input == "TKM" || input == "ABHEENAV") {
+                                        const percentage = Math.floor(Math.random() * 11);
+                                        await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find + "!", MessageType.text, { quoted: msg });
+
                                     }
                                     else {
-                                        conn.sendMessage(msg.key.remoteJid, "*Meter Syntax:*\n\n#meter<space>To_Find<space>Name", MessageType.text, { quoted: msg }).then((res) => {
-                                            console.log("Sent meter command help message.");
-                                        }).catch(msgSendError);
+                                        const percentage = Math.floor(Math.random() * 100);
+                                        await conn.sendMessage(msg.key.remoteJid, name.trim().toUpperCase() + " IS " + percentage + "% " + find + "!", MessageType.text, { quoted: msg });
                                     }
-                                    break;
+                                }
+                                else {
+                                    conn.sendMessage(msg.key.remoteJid, "*Meter Syntax:*\n\n#meter<space>To_Find<space>Name", MessageType.text, { quoted: msg }).then((res) => {
+                                        console.log("Sent meter command help message.");
+                                    }).catch(msgSendError);
+                                }
+                                break;
 
-                                    case "who":
-                                        console.log("answered the who question");
-                                        const users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
-                                        if (cmdContent.trim()) {
-                                            response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
-                                        }
-                                        else {
-                                            conn.sendMessage(msg.key.remoteJid, "*#who syntax:*\n\n#who_<Your Question>", MessageType.text, { quoted: msg }).then((res) => {
-                                                console.log("Sent who command help message.");
-                                            }).catch(msgSendError);
-                                        }
-                                        break;
+                            case "who":
+                                console.log("answered the who question");
+
+                                if (cmdContent.trim()) {
+                                    if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'b' || cmdContent.charAt(cmdContent.length - 1) == 'B' || cmdContent.charAt(cmdContent.length - 1) == 'm' || cmdContent.charAt(cmdContent.length - 1) == 'M')) {
+                                        var users = ["Abhinav", "Aryan", "Arjun", "Ayush", "Govind", "Jaskaran", "Saral", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil"]
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 12)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
+                                    }
+                                    else if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'g' || cmdContent.charAt(cmdContent.length - 1) == 'G' || cmdContent.charAt(cmdContent.length - 1) == 'f' || cmdContent.charAt(cmdContent.length - 1) == 'F')) {
+                                        var users = ["Anushka", "Bhavya", "Riya!", "Subha", "Sreyashi"]
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 5)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
+                                    }
+                                    else {
+                                        var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
+                                    }
+                                }
+                                else {
+                                    conn.sendMessage(msg.key.remoteJid, "*#who syntax:*\n\n#who_<Your Question>", MessageType.text, { quoted: msg }).then((res) => {
+                                        console.log("Sent who command help message.");
+                                    }).catch(msgSendError);
+                                }
+                                break;
 
 
                         }
