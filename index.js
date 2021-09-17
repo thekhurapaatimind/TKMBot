@@ -122,17 +122,17 @@ async function connectWA() {
                                 console.log("answered the who question");
 
                                 if (cmdContent.trim()) {
-                                    if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'b' || cmdContent.charAt(cmdContent.length - 1) == 'B' || cmdContent.charAt(cmdContent.length - 1) == 'm' || cmdContent.charAt(cmdContent.length - 1) == 'M')) {
+                                    if ((cmdContent.charAt(cmdContent.length - 2) == ' ') && (cmdContent.charAt(cmdContent.length - 1) == 'b' || cmdContent.charAt(cmdContent.length - 1) == 'B' || cmdContent.charAt(cmdContent.length - 1) == 'm' || cmdContent.charAt(cmdContent.length - 1) == 'M')) {
                                         var users = ["Abhinav", "Aryan", "Arjun", "Ayush", "Govind", "Jaskaran", "Saral", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil"]
                                         response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 12)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
                                     }
-                                    else if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'g' || cmdContent.charAt(cmdContent.length - 1) == 'G' || cmdContent.charAt(cmdContent.length - 1) == 'f' || cmdContent.charAt(cmdContent.length - 1) == 'F')) {
+                                    else if ((cmdContent.charAt(cmdContent.length - 2) == ' ') && (cmdContent.charAt(cmdContent.length - 1) == 'g' || cmdContent.charAt(cmdContent.length - 1) == 'G' || cmdContent.charAt(cmdContent.length - 1) == 'f' || cmdContent.charAt(cmdContent.length - 1) == 'F')) {
                                         var users = ["Anushka", "Bhavya", "Riya!", "Subha", "Sreyashi"]
-                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 5)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 5)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
                                     }
                                     else {
                                         var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
-                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
                                     }
                                 }
                                 else {
@@ -542,11 +542,11 @@ async function connectWA() {
                                     }
                                     else if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'g' || cmdContent.charAt(cmdContent.length - 1) == 'G' || cmdContent.charAt(cmdContent.length - 1) == 'f' || cmdContent.charAt(cmdContent.length - 1) == 'F')) {
                                         var users = ["Anushka", "Bhavya", "Riya!", "Subha", "Sreyashi"]
-                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 5)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 5)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
                                     }
                                     else {
                                         var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
-                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
+                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
                                     }
                                 }
                                 else {
@@ -555,6 +555,23 @@ async function connectWA() {
                                     }).catch(msgSendError);
                                 }
                                 break;
+
+                            case "helpme":
+                            case "stickerlist":
+                            case "xkgstc":
+                            case "helpxkg":
+                                // WIP
+
+                                fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
+                                    if (err) { console.log("error in opening file: " + err); }
+                                    else {
+                                        conn.sendMessage(msg.key.remoteJid, data.toString(), MessageType.text).then((res) => {
+                                            console.log("Sent " + cmd + " commands list.");
+                                        }).catch(msgSendError);
+                                    }
+                                });
+                                break;
+
 
 
                         }
