@@ -1,4 +1,5 @@
 const { WAConnection, MessageType, Mimetype, MessageOptions } = require('@adiwajshing/baileys');
+// const { Client } = require('@open-wa/wa-automate')
 const fs = require('fs');
 const gm = require('gm');
 
@@ -7,7 +8,7 @@ const gm = require('gm');
 
 async function connectWA() {
     const conn = new WAConnection();
-
+    // const client = new Client();
     // code to save authorization details
     conn.on('open', () => {
         // save credentials whenever updated
@@ -125,12 +126,24 @@ async function connectWA() {
                             case "who":
                                 console.log("answered the who question");
 
+                                console.log(msg.key.remoteJid);
+                                const groupMem2 = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
+                                let num = groupMem2.participants.length;
+
+                                let jidlist2 = [];
+                                let list = [];
+                                for (let i = 0; i < num; i++) {
+                                    list[i] = "@" + groupMem2.participants[i].jid.replace('@s.whatsapp.net', '')
+                                    jidlist2[i] = groupMem2.participants[i].jid;
+                                }
+                                console.log(jidlist2)
+                                console.log(list)
                                 if (cmdContent.trim()) {
-                                    if ((cmdContent.charAt(cmdContent.length - 2) == ' ') && (cmdContent.charAt(cmdContent.length - 1) == 'b' || cmdContent.charAt(cmdContent.length - 1) == 'B' || cmdContent.charAt(cmdContent.length - 1) == 'm' || cmdContent.charAt(cmdContent.length - 1) == 'M')) {
+                                    if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'b' || cmdContent.charAt(cmdContent.length - 1) == 'B' || cmdContent.charAt(cmdContent.length - 1) == 'm' || cmdContent.charAt(cmdContent.length - 1) == 'M')) {
                                         var users = ["Abhinav", "Aryan", "Arjun", "Ayush", "Govind", "Jaskaran", "Saral", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil"]
                                         response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 12)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
                                     }
-                                    else if ((cmdContent.charAt(cmdContent.length - 2) == ' ') && (cmdContent.charAt(cmdContent.length - 1) == 'g' || cmdContent.charAt(cmdContent.length - 1) == 'G' || cmdContent.charAt(cmdContent.length - 1) == 'f' || cmdContent.charAt(cmdContent.length - 1) == 'F')) {
+                                    else if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'g' || cmdContent.charAt(cmdContent.length - 1) == 'G' || cmdContent.charAt(cmdContent.length - 1) == 'f' || cmdContent.charAt(cmdContent.length - 1) == 'F')) {
                                         var users = ["Anushka", "Bhavya", "Riya!", "Subha", "Sreyashi"]
                                         response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 5)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 1), MessageType.text, { quoted: msg });
                                     }
@@ -147,8 +160,12 @@ async function connectWA() {
                                         response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 2)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 2), MessageType.text, { quoted: msg });
                                     }
                                     else {
-                                        var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
-                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
+                                        const random = Math.floor(Math.random() * num)
+                                        console.log(random)
+                                        console.log(list[random])
+                                        console.log(jidlist2[random])
+                                        // var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
+                                        response = await conn.sendMessage(msg.key.remoteJid, list[random].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { contextInfo: { mentionedJid: [jidlist2[random]] } });
                                     }
                                 }
                                 else {
@@ -157,6 +174,7 @@ async function connectWA() {
                                     }).catch(msgSendError);
                                 }
                                 break;
+
 
                             case "myself":
                                 // console.log("Command content: \"" + cmdContent + "\"");
@@ -319,6 +337,27 @@ async function connectWA() {
                                     }).catch(msgSendError);
                                 }
                                 break;
+                            case "everyone":
+
+                                console.log(msg.key.remoteJid);
+                                const groupMem = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
+                                console.log(groupMem.participants.length);
+                                let hehe = '╔══✪〘 Mention All 〙✪══\n'
+                                let jidlist = [];
+                                for (let i = 0; i < groupMem.participants.length; i++) {
+                                    hehe += '╠➥'
+                                    hehe += ` @${groupMem.participants[i].jid.replace('@s.whatsapp.net', '')}\n`
+                                    jidlist[i] = groupMem.participants[i].jid;
+
+                                }
+
+                                hehe += '╚═〘 TKM BOT 〙'
+                                // console.log(hehe);
+                                // console.log(jidlist);
+                                let men = { mentionedJid: jidlist }
+                                await conn.sendMessage(msg.key.remoteJid, hehe, MessageType.extendedText, { contextInfo: men })
+                                break;
+
                             case "helpline":
                                 const rows = [
                                     { title: '#helpme', description: "List all the Commands.", rowId: "rowid1" },
@@ -327,7 +366,7 @@ async function connectWA() {
                                     { title: '#myself', rowId: "rowid4" },
                                     { title: '#hbd Name', description: "Bot wishes happy birthday to the person.", rowId: "rowid2" },
                                     { title: '#sed', description: "Will give a witty reply to cheer your SedLife!. Remember, it's the bot who's replying, don't blame me :)", rowId: "rowid5" },
-                                    
+                                    { title: '#everyone', rowId: "rowid8" },
                                     { title: '#byeBot', rowId: "rowid9" },
                                     { title: '#hellotkm-bot', description: "Spam in presence of BEWA-Bot", rowId: "rowid10" }
                                 ]
@@ -597,6 +636,18 @@ async function connectWA() {
                             case "who":
                                 console.log("answered the who question");
 
+                                console.log(msg.key.remoteJid);
+                                const groupMem2 = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
+                                let num = groupMem2.participants.length;
+
+                                let jidlist2 = [];
+                                let list = [];
+                                for (let i = 0; i < num; i++) {
+                                    list[i] = "@" + groupMem2.participants[i].jid.replace('@s.whatsapp.net', '')
+                                    jidlist2[i] = groupMem2.participants[i].jid;
+                                }
+                                console.log(jidlist2)
+                                console.log(list)
                                 if (cmdContent.trim()) {
                                     if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'b' || cmdContent.charAt(cmdContent.length - 1) == 'B' || cmdContent.charAt(cmdContent.length - 1) == 'm' || cmdContent.charAt(cmdContent.length - 1) == 'M')) {
                                         var users = ["Abhinav", "Aryan", "Arjun", "Ayush", "Govind", "Jaskaran", "Saral", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil"]
@@ -619,8 +670,12 @@ async function connectWA() {
                                         response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 2)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 2), MessageType.text, { quoted: msg });
                                     }
                                     else {
-                                        var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
-                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
+                                        const random = Math.floor(Math.random() * num)
+                                        console.log(random)
+                                        console.log(list[random])
+                                        console.log(jidlist2[random])
+                                        // var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
+                                        response = await conn.sendMessage(msg.key.remoteJid, list[random].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { contextInfo: { mentionedJid: [jidlist2[random]] } });
                                     }
                                 }
                                 else {
@@ -645,7 +700,26 @@ async function connectWA() {
                                     }
                                 });
                                 break;
+                            case "everyone":
 
+                                console.log(msg.key.remoteJid);
+                                const groupMem = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
+                                console.log(groupMem.participants.length);
+                                let hehe = '╔══✪〘 Mention All 〙✪══\n'
+                                let jidlist = [];
+                                for (let i = 0; i < groupMem.participants.length; i++) {
+                                    hehe += '╠➥'
+                                    hehe += ` @${groupMem.participants[i].jid.replace('@s.whatsapp.net', '')}\n`
+                                    jidlist[i] = groupMem.participants[i].jid;
+
+                                }
+
+                                hehe += '╚═〘 TKM BOT 〙'
+                                // console.log(hehe);
+                                // console.log(jidlist);
+                                let men = { mentionedJid: jidlist }
+                                await conn.sendMessage(msg.key.remoteJid, hehe, MessageType.extendedText, { contextInfo: men })
+                                break;
                             case "helpline":
                                 const rows = [
                                     { title: '#helpme', description: "List all the Commands.", rowId: "rowid1" },
@@ -654,7 +728,7 @@ async function connectWA() {
                                     { title: '#myself', rowId: "rowid4" },
                                     { title: '#hbd Name', description: "Bot wishes happy birthday to the person.", rowId: "rowid2" },
                                     { title: '#sed', description: "Will give a witty reply to cheer your SedLife!. Remember, it's the bot who's replying, don't blame me :)", rowId: "rowid5" },
-                            
+                                    { title: '#everyone', rowId: "rowid8" },
                                     { title: '#byeBot', rowId: "rowid9" },
                                     { title: '#hellotkm-bot', description: "Spam in presence of BEWA-Bot", rowId: "rowid10" }
                                 ]
@@ -884,6 +958,18 @@ async function connectWA() {
                             case "who":
                                 console.log("answered the who question");
 
+                                console.log(msg.key.remoteJid);
+                                const groupMem2 = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
+                                let num = groupMem2.participants.length;
+
+                                let jidlist2 = [];
+                                let list = [];
+                                for (let i = 0; i < num; i++) {
+                                    list[i] = "@" + groupMem2.participants[i].jid.replace('@s.whatsapp.net', '')
+                                    jidlist2[i] = groupMem2.participants[i].jid;
+                                }
+                                console.log(jidlist2)
+                                console.log(list)
                                 if (cmdContent.trim()) {
                                     if (cmdContent.charAt(cmdContent.length - 2) == ' ' && (cmdContent.charAt(cmdContent.length - 1) == 'b' || cmdContent.charAt(cmdContent.length - 1) == 'B' || cmdContent.charAt(cmdContent.length - 1) == 'm' || cmdContent.charAt(cmdContent.length - 1) == 'M')) {
                                         var users = ["Abhinav", "Aryan", "Arjun", "Ayush", "Govind", "Jaskaran", "Saral", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil"]
@@ -906,8 +992,12 @@ async function connectWA() {
                                         response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 2)].toUpperCase() + " " + cmdContent.trim().toUpperCase().substring(0, cmdContent.length - 2), MessageType.text, { quoted: msg });
                                     }
                                     else {
-                                        var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
-                                        response = await conn.sendMessage(msg.key.remoteJid, users[Math.floor(Math.random() * 17)].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { quoted: msg });
+                                        const random = Math.floor(Math.random() * num)
+                                        console.log(random)
+                                        console.log(list[random])
+                                        console.log(jidlist2[random])
+                                        // var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
+                                        response = await conn.sendMessage(msg.key.remoteJid, list[random].toUpperCase() + " " + cmdContent.trim().toUpperCase(), MessageType.text, { contextInfo: { mentionedJid: [jidlist2[random]] } });
                                     }
                                 }
                                 else {
@@ -915,6 +1005,29 @@ async function connectWA() {
                                         console.log("Sent who command help message.");
                                     }).catch(msgSendError);
                                 }
+                                break;
+
+
+
+                            case "everyone":
+
+                                console.log(msg.key.remoteJid);
+                                const groupMem = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
+                                console.log(groupMem.participants.length);
+                                let hehe = '╔══✪〘 Mention All 〙✪══\n'
+                                let jidlist = [];
+                                for (let i = 0; i < groupMem.participants.length; i++) {
+                                    hehe += '╠➥'
+                                    hehe += ` @${groupMem.participants[i].jid.replace('@s.whatsapp.net', '')}\n`
+                                    jidlist[i] = groupMem.participants[i].jid;
+
+                                }
+
+                                hehe += '╚═〘 TKM BOT 〙'
+                                // console.log(hehe);
+                                // console.log(jidlist);
+                                let men = { mentionedJid: jidlist }
+                                await conn.sendMessage(msg.key.remoteJid, hehe, MessageType.extendedText, { contextInfo: men })
                                 break;
 
                             case "helpme":
