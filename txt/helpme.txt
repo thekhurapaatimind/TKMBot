@@ -11,5 +11,6 @@ _Commands:_
 *- #devdas<space>Name:* This is a Majnu Meter. Tells how much devdas the person is.
 *- #stickerlist:* Lists all the stickers currently available on the bot.
 *- #helpme:* Lists all the available commands of the bot.
+*- #helpline:* Lists all the available commands of the bot with a prefix syntax.
 
 _All the commands are case in-sensitive but make sure you dont use a space between '#' and the command._

@@ -10,6 +10,10 @@ Use b/m for boy's list, g/f for girl's list;
 Sorry, we do not have any 3rd gender :(
 Example: #who is fit b
 
+#who<space>Question<Space>Branch : 
+Use cs for CSE, ce for CE, mm for MEMS;
+Example: #who is CSE Topper cs
+
 *- #xkgstc:* Lists all the xkg-only stickers currently available on the bot.
 
 *- #helpxkg:* Lists all the available xkg-only commands of the bot.
