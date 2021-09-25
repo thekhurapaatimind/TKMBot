@@ -2,7 +2,9 @@ const { WAConnection, MessageType, Mimetype, MessageOptions } = require('@adiwaj
 // const { Client } = require('@open-wa/wa-automate')
 const fs = require('fs');
 const gm = require('gm');
-
+var inputparticipant = '';
+var votesfor = 0;
+var votesagainst = 0;
 
 //const mentionedJidList = message;
 
@@ -342,7 +344,7 @@ async function connectWA() {
                                 console.log(msg.key.remoteJid);
                                 const groupMem = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
                                 console.log(groupMem.participants.length);
-                                let hehe = '╔══✪〘 '+groupMem.subject+' 〙✪══\n'
+                                let hehe = '╔══✪〘 ' + groupMem.subject + ' 〙✪══\n'
                                 let jidlist = [];
                                 for (let i = 0; i < groupMem.participants.length; i++) {
                                     hehe += '╠➥'
@@ -357,54 +359,42 @@ async function connectWA() {
                                 let men = { mentionedJid: jidlist }
                                 await conn.sendMessage(msg.key.remoteJid, hehe, MessageType.extendedText, { contextInfo: men })
                                 break;
-                            
-                                case "votekick":
-                                    if (cmdContent.trim()) {
-                                        var inputparticipant = cmdContent.trim().toUpperCase();
-                                        if (input == "JASKARAN" || input == "JSK") {
-                                            const gayPercentage = Math.floor(Math.random() * 11) + 91;
-                                            await conn.sendMessage(msg.key.remoteJid, cmdContent.trim().toUpperCase() + " is " + gayPercentage + "% Devdas 🥰", MessageType.text);
-    
+
+                            case "votekick":
+                                if (cmdContent.trim()) {
+                                    inputparticipant = cmdContent.trim();
+                                    if (inputparticipant.charAt(0) == '@' && inputparticipant.length >= 13) {
+                                        votesfor = 0;
+                                        votesagainst = 0;
+                                        const rows2 = [
+                                            { title: '#pass', rowId: "rowid1" },
+                                            { title: '#do_not_pass', rowId: "rowid2" }
+                                        ]
+                                        //    description: "List all the Commands." description: "List all the Commands."
+
+                                        const sections2 = [{ title: "Section 1", rows: rows2 }]
+
+                                        const button2 = {
+                                            buttonText: 'Vote!',
+                                            description: "A motion has been proposed to kick the member from the group. Do you pass this motion?",
+                                            sections: sections2,
+                                            listType: 1
                                         }
-                                        else if (input == "ABHINAV" || input == "TKM" || input == "ABHEENAV") {
-                                            const gayPercentage = Math.floor(Math.random() * 11);
-                                            await conn.sendMessage(msg.key.remoteJid, cmdContent.trim().toUpperCase() + " is " + gayPercentage + "% Devdas 🥰", MessageType.text);
-    
-                                        }
-                                        else {
-                                            const gayPercentage = Math.floor(Math.random() * 100);
-                                            await conn.sendMessage(msg.key.remoteJid, cmdContent.trim().toUpperCase() + " is " + gayPercentage + "% Devdas 🥰", MessageType.text);
-                                        }
+
+                                        const sendMsg2 = await conn.sendMessage(msg.key.remoteJid, button2, MessageType.listMessage, { quoted: msg })
+
                                     }
                                     else {
-                                        conn.sendMessage(msg.key.remoteJid, "*Majnu Meter Syntax:*\n\n#devdas<space>Name", MessageType.text, { quoted: msg }).then((res) => {
-                                            console.log("Sent majnu command help message.");
-                                        }).catch(msgSendError);
+                                        await conn.sendMessage(msg.key.remoteJid, "Please mention a contact to move the motion.\nUse #votekick to know the syntax.", MessageType.text);
                                     }
-                                    const rows = [
-                                        { title: '#helpme', description: "List all the Commands.", rowId: "rowid1" },
-                                        { title: '#stickerlist', description: "List all the Stickers.", rowId: "rowid2" },
-                                        { title: '#helloBot', rowId: "rowid3" },
-                                        { title: '#myself', rowId: "rowid4" },
-                                        { title: '#hbd Name', description: "Bot wishes happy birthday to the person.", rowId: "rowid2" },
-                                        { title: '#sed', description: "Will give a witty reply to cheer your SedLife!. Remember, it's the bot who's replying, don't blame me :)", rowId: "rowid5" },
-                                        { title: '#everyone', rowId: "rowid8" },
-                                        { title: '#byeBot', rowId: "rowid9" },
-                                        { title: '#hellotkm-bot', description: "Spam in presence of BEWA-Bot", rowId: "rowid10" }
-                                    ]
-                                    //    description: "List all the Commands." description: "List all the Commands."
-    
-                                    const sections = [{ title: "Section 1", rows: rows }]
-    
-                                    const button = {
-                                        buttonText: 'Click Me!',
-                                        description: "Hello! it's TKM Bot Helpline",
-                                        sections: sections,
-                                        listType: 1
-                                    }
-    
-                                    const sendMsg = await conn.sendMessage(msg.key.remoteJid, button, MessageType.listMessage)
-                            
+                                }
+                                else {
+                                    conn.sendMessage(msg.key.remoteJid, "*Vote Kick Syntax:*\n\n#votekick<space>@919876543210\n\nMention the User to be kicked.", MessageType.text, { quoted: msg }).then((res) => {
+                                        console.log("Sent vote kick command help message.");
+                                    }).catch(msgSendError);
+                                }
+                                break;
+
                             case "helpline":
                                 const rows = [
                                     { title: '#helpme', description: "List all the Commands.", rowId: "rowid1" },
@@ -476,13 +466,13 @@ async function connectWA() {
 
                 // Reply message detector 
                 else if (msgType === MessageType.extendedText) {
-                    // console.log("extended");
+                    //console.log("extended");
                     let msgText = msg.message.extendedTextMessage.text;
                     if (msgText.startsWith("#")) {
-                        // console.log("triggered");
+                        console.log("triggeredextended");
                         const cmd = msgText.split(" ")[0].substring(1).toLowerCase();
                         let cmdContent = msgText.substring(msgText.indexOf(" ") + 1);
-                        // console.log(cmd);
+                        console.log(cmd);
                         switch (cmd) {
                             case "hellobot":
                                 console.log("Received greeting");
@@ -608,6 +598,45 @@ async function connectWA() {
                                     }).catch(msgSendError);
                                 }
                                 break;
+
+                            case "votekick":
+                                if (cmdContent.trim()) {
+                                    inputparticipant = cmdContent.trim();
+                                    if (inputparticipant.charAt(0) == '@' && inputparticipant.length >= 13) {
+                                        if (votesagainst != 0 || votesfor != 0) {
+                                            conn.sendMessage(msg.key.remoteJid, "The Vote Kick Nomination has been refreshed without a result. Votes would be counted from 0 for the new member.", MessageType.text)
+                                        }
+                                        votesfor = 0;
+                                        votesagainst = 0;
+                                        const rows2 = [
+                                            { title: '#pass', rowId: "rowid1" },
+                                            { title: '#do_not_pass', rowId: "rowid2" }
+                                        ]
+                                        //    description: "List all the Commands." description: "List all the Commands."
+
+                                        const sections2 = [{ title: "Section 1", rows: rows2 }]
+
+                                        const button2 = {
+                                            buttonText: 'Vote🗳️!',
+                                            description: "A motion has been proposed to kick 🥾 the member from the group. Do you pass this motion 🤨?",
+                                            sections: sections2,
+                                            listType: 1
+                                        }
+
+                                        const sendMsg2 = await conn.sendMessage(msg.key.remoteJid, button2, MessageType.listMessage, { quoted: msg })
+
+                                    }
+                                    else {
+                                        await conn.sendMessage(msg.key.remoteJid, "Please mention a contact to move the motion.\nUse #votekick to know the syntax.", MessageType.text);
+                                    }
+                                }
+                                else {
+                                    conn.sendMessage(msg.key.remoteJid, "*Vote Kick Syntax:*\n\n#votekick<space>@919876543210\n\nMention the User to be kicked.", MessageType.text, { quoted: msg }).then((res) => {
+                                        console.log("Sent vote kick command help message.");
+                                    }).catch(msgSendError);
+                                }
+                                break;
+
                             case "bhanda":
                             case "burahua":
                             case "emb":
@@ -752,7 +781,7 @@ async function connectWA() {
                                 console.log(msg.key.remoteJid);
                                 const groupMem = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
                                 console.log(groupMem.participants.length);
-                                let hehe = '╔══✪〘 '+groupMem.subject+' 〙✪══\n'
+                                let hehe = '╔══✪〘 ' + groupMem.subject + ' 〙✪══\n'
                                 let jidlist = [];
                                 for (let i = 0; i < groupMem.participants.length; i++) {
                                     hehe += '╠➥'
@@ -918,6 +947,7 @@ async function connectWA() {
                                     }).catch(msgSendError);
                                 }
                                 break;
+
                             case "hbd":
                                 console.log("wished bday");
                                 const replies2 = ["Q: Do you by any chance know what constantly goes up, but never ever comes down?\n\n\n\n\n\n\n\n\n\nA: Your ever-growing age!", "Q: What does the average cat love to eat at her birthday party?\n\n\n\n\n\n\n\n\n\nA: Mice cream.", "Q: What do Jesus Christ and Mahatma Gandhi both have in common?\n\n\n\n\n\n\n\n\n\nA: They were both born on public holidays.", "Q: What do people who have the most birthdays have in common?\n\n\n\n\n\n\n\n\n\nA: Old age.", "Q: Why did couples have problems with each other before the 2000s?\n\n\n\n\n\n\n\n\n\nA: Because Facebook reminder didn’t exist at that time to remind them of their partners’ birthdays.", "Q: What do chickens love to eat at their birthday parties?\n\n\n\n\n\n\n\n\n\nA: Coop-cakes!", "Q: Where can you find the best birthday present for your cat?\n\n\n\n\n\n\n\n\n\nA: Inside a cat-alogue!", "Q: What type of cake was served at the birthday party of Penny from the Big Bang Theory?\n\n\n\n\n\n\n\n\n\nA: Cheese cake.", "Q: What gift do you always receive on your birthday?\n\n\n\n\n\n\n\n\n\nA: A brand new age."]
@@ -930,6 +960,7 @@ async function connectWA() {
                                     }).catch(msgSendError);
                                 }
                                 break;
+
                             case "bhanda":
                             case "burahua":
                             case "emb":
@@ -1002,6 +1033,61 @@ async function connectWA() {
                                 }
                                 break;
 
+                            case "pass":
+                                if (inputparticipant == '') {
+                                    await conn.sendMessage(msg.key.remoteJid, "No one nominated for the polls.", MessageType.text)
+                                }
+                                else {
+                                    votesfor++;
+                                    console.log(votesfor)
+                                    if (votesfor > (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length / 2) {
+                                        console.log(votesfor)
+                                        console.log((await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length)
+                                        console.log((await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject)
+                                        console.log([inputparticipant.replace('@', '') + '@s.whatsapp.net'])
+                                        console.log(inputparticipant)
+                                        // conn.sendMessage(msg.key.remoteJid, "A total of " + votesfor + " out of " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length + " have voted to kick " + inputparticipant + " from " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject), { contextInfo: { mentionedJid: [inputparticipant.replace('@', '') + '@s.whatsapp.net'] } }
+                                        await conn.sendMessage(msg.key.remoteJid, "A total of " + votesfor + " out of " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length + " have voted to kick ❌ " + inputparticipant + " from " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject + " 😈", MessageType.text, { contextInfo: { mentionedJid: [inputparticipant.replace('@', '') + '@s.whatsapp.net'] } }).then((res) => {
+                                            console.log("Vote Results sent.");
+                                        }).catch(msgSendError);
+
+                                        await conn.groupRemove(msg.key.remoteJid, [inputparticipant.replace('@', '') + '@s.whatsapp.net']).then((modi) => {
+                                            console.log("Removed the voted participant.");
+                                            console.log("Data received: " + modi);
+                                        }).catch((err) => {
+                                            console.log("ERROR in removing member: " + err);
+                                        });
+                                        votesfor = 0;
+                                        votesagainst = 0;
+                                        inputparticipant = '';
+                                    }
+                                }
+                                break;
+
+                            case "do_not_pass":
+                                if (inputparticipant == '') {
+                                    await conn.sendMessage(msg.key.remoteJid, "No one nominated for the polls.", MessageType.text)
+                                }
+                                else {
+                                    votesagainst++;
+                                    console.log(votesagainst)
+                                    if (votesagainst > (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length / 2) {
+
+                                        console.log((await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length)
+                                        console.log((await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject)
+                                        console.log([inputparticipant.replace('@', '') + '@s.whatsapp.net'])
+                                        console.log(inputparticipant)
+                                        // conn.sendMessage(msg.key.remoteJid, "A total of " + votesagainst + " out of " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length + " have voted to kick " + inputparticipant + " from " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject), { contextInfo: { mentionedJid: [inputparticipant.replace('@', '') + '@s.whatsapp.net'] } }
+                                        await conn.sendMessage(msg.key.remoteJid, "A total of " + votesagainst + " out of " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length + " have denied to kick ✔️ " + inputparticipant + " from " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject + "and hence the motion has been desolved 🤷‍♂️.", MessageType.text, { contextInfo: { mentionedJid: [inputparticipant.replace('@', '') + '@s.whatsapp.net'] } }).then((res) => {
+                                            console.log("Vote Results sent.");
+                                        }).catch(msgSendError);
+                                        votesfor = 0;
+                                        votesagainst = 0;
+                                        inputparticipant = '';
+                                    }
+                                }
+                                break;
+
                             case "who":
                                 console.log("answered the who question");
 
@@ -1061,7 +1147,7 @@ async function connectWA() {
                                 console.log(msg.key.remoteJid);
                                 const groupMem = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
                                 console.log(groupMem.participants.length);
-                                let hehe = '╔══✪〘 '+groupMem.subject+' 〙✪══\n'
+                                let hehe = '╔══✪〘 ' + groupMem.subject + ' 〙✪══\n'
                                 let jidlist = [];
                                 for (let i = 0; i < groupMem.participants.length; i++) {
                                     hehe += '╠➥'
