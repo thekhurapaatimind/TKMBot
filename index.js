@@ -342,7 +342,7 @@ async function connectWA() {
                                 console.log(msg.key.remoteJid);
                                 const groupMem = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
                                 console.log(groupMem.participants.length);
-                                let hehe = '╔══✪〘 Mention All 〙✪══\n'
+                                let hehe = '╔══✪〘 '+groupMem.subject+' 〙✪══\n'
                                 let jidlist = [];
                                 for (let i = 0; i < groupMem.participants.length; i++) {
                                     hehe += '╠➥'
@@ -357,7 +357,54 @@ async function connectWA() {
                                 let men = { mentionedJid: jidlist }
                                 await conn.sendMessage(msg.key.remoteJid, hehe, MessageType.extendedText, { contextInfo: men })
                                 break;
-
+                            
+                                case "votekick":
+                                    if (cmdContent.trim()) {
+                                        var inputparticipant = cmdContent.trim().toUpperCase();
+                                        if (input == "JASKARAN" || input == "JSK") {
+                                            const gayPercentage = Math.floor(Math.random() * 11) + 91;
+                                            await conn.sendMessage(msg.key.remoteJid, cmdContent.trim().toUpperCase() + " is " + gayPercentage + "% Devdas 🥰", MessageType.text);
+    
+                                        }
+                                        else if (input == "ABHINAV" || input == "TKM" || input == "ABHEENAV") {
+                                            const gayPercentage = Math.floor(Math.random() * 11);
+                                            await conn.sendMessage(msg.key.remoteJid, cmdContent.trim().toUpperCase() + " is " + gayPercentage + "% Devdas 🥰", MessageType.text);
+    
+                                        }
+                                        else {
+                                            const gayPercentage = Math.floor(Math.random() * 100);
+                                            await conn.sendMessage(msg.key.remoteJid, cmdContent.trim().toUpperCase() + " is " + gayPercentage + "% Devdas 🥰", MessageType.text);
+                                        }
+                                    }
+                                    else {
+                                        conn.sendMessage(msg.key.remoteJid, "*Majnu Meter Syntax:*\n\n#devdas<space>Name", MessageType.text, { quoted: msg }).then((res) => {
+                                            console.log("Sent majnu command help message.");
+                                        }).catch(msgSendError);
+                                    }
+                                    const rows = [
+                                        { title: '#helpme', description: "List all the Commands.", rowId: "rowid1" },
+                                        { title: '#stickerlist', description: "List all the Stickers.", rowId: "rowid2" },
+                                        { title: '#helloBot', rowId: "rowid3" },
+                                        { title: '#myself', rowId: "rowid4" },
+                                        { title: '#hbd Name', description: "Bot wishes happy birthday to the person.", rowId: "rowid2" },
+                                        { title: '#sed', description: "Will give a witty reply to cheer your SedLife!. Remember, it's the bot who's replying, don't blame me :)", rowId: "rowid5" },
+                                        { title: '#everyone', rowId: "rowid8" },
+                                        { title: '#byeBot', rowId: "rowid9" },
+                                        { title: '#hellotkm-bot', description: "Spam in presence of BEWA-Bot", rowId: "rowid10" }
+                                    ]
+                                    //    description: "List all the Commands." description: "List all the Commands."
+    
+                                    const sections = [{ title: "Section 1", rows: rows }]
+    
+                                    const button = {
+                                        buttonText: 'Click Me!',
+                                        description: "Hello! it's TKM Bot Helpline",
+                                        sections: sections,
+                                        listType: 1
+                                    }
+    
+                                    const sendMsg = await conn.sendMessage(msg.key.remoteJid, button, MessageType.listMessage)
+                            
                             case "helpline":
                                 const rows = [
                                     { title: '#helpme', description: "List all the Commands.", rowId: "rowid1" },
@@ -705,7 +752,7 @@ async function connectWA() {
                                 console.log(msg.key.remoteJid);
                                 const groupMem = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
                                 console.log(groupMem.participants.length);
-                                let hehe = '╔══✪〘 Mention All 〙✪══\n'
+                                let hehe = '╔══✪〘 '+groupMem.subject+' 〙✪══\n'
                                 let jidlist = [];
                                 for (let i = 0; i < groupMem.participants.length; i++) {
                                     hehe += '╠➥'
@@ -1014,7 +1061,7 @@ async function connectWA() {
                                 console.log(msg.key.remoteJid);
                                 const groupMem = await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
                                 console.log(groupMem.participants.length);
-                                let hehe = '╔══✪〘 Mention All 〙✪══\n'
+                                let hehe = '╔══✪〘 '+groupMem.subject+' 〙✪══\n'
                                 let jidlist = [];
                                 for (let i = 0; i < groupMem.participants.length; i++) {
                                     hehe += '╠➥'
