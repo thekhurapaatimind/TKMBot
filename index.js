@@ -1067,7 +1067,7 @@ async function connectWA() {
                                         inputparticipant = '';
                                     }
                                     else {
-                                        const noofmem = conn.fetchGroupMetadataFromWA(msg.key.remoteJid).participants.length;
+                                        const noofmem = (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length;
                                         await conn.sendMessage(msg.key.remoteJid, "Total Votes : "+ (votesfor+votesagainst) + "/"+noofmem+"\nVotes For : "+ (votesfor) + "/"+noofmem+"\nVotes Against : "+ (votesagainst) + "/"+noofmem, MessageType.text, { quoted : msg});
                                     }
                                 }
@@ -1095,7 +1095,7 @@ async function connectWA() {
                                         inputparticipant = '';
                                     }
                                     else {
-                                        const noofmem = conn.fetchGroupMetadataFromWA(msg.key.remoteJid).participants.length;
+                                        const noofmem = (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length;
                                         await conn.sendMessage(msg.key.remoteJid, "Total Votes : "+ (votesfor+votesagainst) + "/"+noofmem+"\nVotes For : "+ (votesfor) + "/"+noofmem+"\nVotes Against : "+ (votesagainst) + "/"+noofmem, MessageType.text, { quoted : msg});
                                     }
                                 }
