@@ -9,4 +9,11 @@ _Commands:_
 - *#srsi*
 - *#yeah*
 
+_New:_
+- *#crypv*
+- *#iitiman*
+- *#jskdis*
+- *#snek*
+- *#srsmile*
+
 _All the commands are case in-sensitive but make sure you dont use a space between '#' and the command._

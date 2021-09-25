@@ -76,13 +76,13 @@ async function connectWA() {
                                 console.log("Sent greetings to BEWA bhai!");
                                 break;
 
-                            case "bhanda":
-                            case "burahua":
-                            case "emb":
-                            case "facepalm":
-                            case "gkm":
-                            case "gn":
-                            case "haanvro":
+                            case "bhanda": case "aedee": case "amgry": case "ayushM": case "bidi":
+                            case "burahua": case "chee": case "crypv": case "csk": case "disappointed":
+                            case "emb": case "enjoy": case "iitiman": case "jetha": case "jskdis":
+                            case "facepalm": case "kyabaat": case "logic": case "lol": case "mast":
+                            case "gkm": case "nasha": case "noi": case "redeyes": case "sideeye":
+                            case "gn": case "slap": case "snek": case "srsmile": case "tease":
+                            case "haanvro": case "uno":
                             case "hand":
                             case "hehe":
                             case "hempy":
@@ -301,6 +301,7 @@ async function connectWA() {
                             case "stickerlist":
                             case "xkgstc":
                             case "helpxkg":
+                            case "whatsnew":
                                 // WIP
 
                                 fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
@@ -637,13 +638,13 @@ async function connectWA() {
                                 }
                                 break;
 
-                            case "bhanda":
-                            case "burahua":
-                            case "emb":
-                            case "facepalm":
-                            case "gkm":
-                            case "gn":
-                            case "haanvro":
+                            case "bhanda": case "aedee": case "amgry": case "ayushM": case "bidi":
+                            case "burahua": case "chee": case "crypv": case "csk": case "disappointed":
+                            case "emb": case "enjoy": case "iitiman": case "jetha": case "jskdis":
+                            case "facepalm": case "kyabaat": case "logic": case "lol": case "mast":
+                            case "gkm": case "nasha": case "noi": case "redeyes": case "sideeye":
+                            case "gn": case "slap": case "snek": case "srsmile": case "tease":
+                            case "haanvro": case "uno":
                             case "hand":
                             case "hehe":
                             case "hempy":
@@ -670,6 +671,7 @@ async function connectWA() {
                             case "helpme":
                             case "stickerlist":
                             case "xkgstc":
+                            case "whatsnew":
                                 // WIP
 
                                 fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
@@ -765,6 +767,7 @@ async function connectWA() {
                             case "stickerlist":
                             case "xkgstc":
                             case "helpxkg":
+                            case "whatsnew":
                                 // WIP
 
                                 fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
@@ -961,13 +964,13 @@ async function connectWA() {
                                 }
                                 break;
 
-                            case "bhanda":
-                            case "burahua":
-                            case "emb":
-                            case "facepalm":
-                            case "gkm":
-                            case "gn":
-                            case "haanvro":
+                            case "bhanda": case "aedee": case "amgry": case "ayushM": case "bidi":
+                            case "burahua": case "chee": case "crypv": case "csk": case "disappointed":
+                            case "emb": case "enjoy": case "iitiman": case "jetha": case "jskdis":
+                            case "facepalm": case "kyabaat": case "logic": case "lol": case "mast":
+                            case "gkm": case "nasha": case "noi": case "redeyes": case "sideeye":
+                            case "gn": case "slap": case "snek": case "srsmile": case "tease":
+                            case "haanvro": case "uno":
                             case "hand":
                             case "hehe":
                             case "hempy":
@@ -994,6 +997,8 @@ async function connectWA() {
                             case "helpme":
                             case "stickerlist":
                             case "xkgstc":
+                            case "whatsnew":
+                            case "whatsnew":
                                 // WIP
 
                                 fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
@@ -1061,6 +1066,10 @@ async function connectWA() {
                                         votesagainst = 0;
                                         inputparticipant = '';
                                     }
+                                    else {
+                                        const noofmem = conn.fetchGroupMetadataFromWA(msg.key.remoteJid).participants.length;
+                                        await conn.sendMessage(msg.key.remoteJid, "Total Votes : "+ (votesfor+votesagainst) + "/"+noofmem+"\nVotes For : "+ (votesfor) + "/"+noofmem+"\nVotes Against : "+ (votesagainst) + "/"+noofmem, MessageType.text, { quoted : msg});
+                                    }
                                 }
                                 break;
 
@@ -1084,6 +1093,10 @@ async function connectWA() {
                                         votesfor = 0;
                                         votesagainst = 0;
                                         inputparticipant = '';
+                                    }
+                                    else {
+                                        const noofmem = conn.fetchGroupMetadataFromWA(msg.key.remoteJid).participants.length;
+                                        await conn.sendMessage(msg.key.remoteJid, "Total Votes : "+ (votesfor+votesagainst) + "/"+noofmem+"\nVotes For : "+ (votesfor) + "/"+noofmem+"\nVotes Against : "+ (votesagainst) + "/"+noofmem, MessageType.text, { quoted : msg});
                                     }
                                 }
                                 break;
@@ -1167,6 +1180,7 @@ async function connectWA() {
                             case "stickerlist":
                             case "xkgstc":
                             case "helpxkg":
+                            case "whatsnew":
                                 // WIP
 
                                 fs.readFile("./txt/" + cmd + ".txt", (err, data) => {

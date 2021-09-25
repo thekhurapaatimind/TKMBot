@@ -21,5 +21,26 @@ _Commands:_
 - *#sunkarburalaga*
 - *#themks*
 - *#ufff*
+_New:_
+- *#aedee*
+- *#amgry*
+- *#ayushM*
+- *#bidi*
+- *#chee*
+- *#csk*
+- *#disappointed*
+- *#enjoy*
+- *#jetha*
+- *#kyabaat*
+- *#logic*
+- *#lol*
+- *#mast*
+- *#nasha*
+- *#noi*
+- *#redeyes*
+- *#sideeye*
+- *#slap*
+- *#tease*
+- *#uno*
 
 _All the commands are case in-sensitive but make sure you dont use a space between '#' and the command._
