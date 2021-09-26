@@ -26,7 +26,6 @@ _New:_
 - *#amgry*
 - *#ayushM*
 - *#bidi*
-- *#chee*
 - *#csk*
 - *#disappointed*
 - *#enjoy*

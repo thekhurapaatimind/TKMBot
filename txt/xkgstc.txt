@@ -11,6 +11,7 @@ _Commands:_
 
 _New:_
 - *#crypv*
+- *#chee*
 - *#iitiman*
 - *#jskdis*
 - *#snek*

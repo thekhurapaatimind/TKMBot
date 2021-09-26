@@ -77,7 +77,7 @@ async function connectWA() {
                                 break;
 
                             case "bhanda": case "aedee": case "amgry": case "ayushM": case "bidi":
-                            case "burahua": case "chee": case "crypv": case "csk": case "disappointed":
+                            case "burahua": case "chee": case "crypv": case "disappointed":
                             case "emb": case "enjoy": case "iitiman": case "jetha": case "jskdis":
                             case "facepalm": case "kyabaat": case "logic": case "lol": case "mast":
                             case "gkm": case "nasha": case "noi": case "redeyes": case "sideeye":
@@ -104,6 +104,24 @@ async function connectWA() {
 
                                 console.log("sending " + cmd + " sticker.");
                                 response = await conn.sendMessage(msg.key.remoteJid, fs.readFileSync("stickers/" + cmd + ".webp"), MessageType.sticker, { quoted: msg, mimetype: Mimetype.webp });
+                                break;
+
+                            case "csk":
+                                let senders = msg.participant
+                                if (senders == '') {
+                                    for (let i = 0; i < 10; i++) {
+                                        console.log("sending " + cmd + " sticker." + i);
+                                        conn.sendMessage(msg.key.remoteJid, fs.readFileSync("stickers/" + cmd + ".webp"), MessageType.sticker, { mimetype: Mimetype.webp });
+
+                                    }
+                                }
+                                else {
+                                    console.log("sending " + cmd + " sticker." + i);
+                                    conn.sendMessage(msg.key.remoteJid, fs.readFileSync("stickers/" + cmd + ".webp"), MessageType.sticker, { quoted: msg, mimetype: Mimetype.webp });
+
+                                }
+                                console.log([senders])
+
                                 break;
 
                             case "sed":
@@ -639,7 +657,7 @@ async function connectWA() {
                                 break;
 
                             case "bhanda": case "aedee": case "amgry": case "ayushM": case "bidi":
-                            case "burahua": case "chee": case "crypv": case "csk": case "disappointed":
+                            case "burahua": case "chee": case "crypv": case "disappointed":
                             case "emb": case "enjoy": case "iitiman": case "jetha": case "jskdis":
                             case "facepalm": case "kyabaat": case "logic": case "lol": case "mast":
                             case "gkm": case "nasha": case "noi": case "redeyes": case "sideeye":
@@ -666,6 +684,24 @@ async function connectWA() {
 
                                 console.log("sending " + cmd + " sticker.");
                                 response = await conn.sendMessage(msg.key.remoteJid, fs.readFileSync("stickers/" + cmd + ".webp"), MessageType.sticker, { quoted: msg, mimetype: Mimetype.webp });
+                                break;
+
+                            case "csk":
+                                let senders = msg.participant
+                                if (senders == '') {
+                                    for (let i = 0; i < 10; i++) {
+                                        console.log("sending " + cmd + " sticker." + i);
+                                        conn.sendMessage(msg.key.remoteJid, fs.readFileSync("stickers/" + cmd + ".webp"), MessageType.sticker, { mimetype: Mimetype.webp });
+
+                                    }
+                                }
+                                else {
+                                    console.log("sending " + cmd + " sticker." + i);
+                                    conn.sendMessage(msg.key.remoteJid, fs.readFileSync("stickers/" + cmd + ".webp"), MessageType.sticker, { quoted: msg, mimetype: Mimetype.webp });
+
+                                }
+                                console.log([senders])
+
                                 break;
 
                             case "helpme":
@@ -965,7 +1001,7 @@ async function connectWA() {
                                 break;
 
                             case "bhanda": case "aedee": case "amgry": case "ayushM": case "bidi":
-                            case "burahua": case "chee": case "crypv": case "csk": case "disappointed":
+                            case "burahua": case "chee": case "crypv": case "disappointed":
                             case "emb": case "enjoy": case "iitiman": case "jetha": case "jskdis":
                             case "facepalm": case "kyabaat": case "logic": case "lol": case "mast":
                             case "gkm": case "nasha": case "noi": case "redeyes": case "sideeye":
@@ -992,6 +1028,24 @@ async function connectWA() {
 
                                 console.log("sending " + cmd + " sticker.");
                                 response = await conn.sendMessage(msg.key.remoteJid, fs.readFileSync("stickers/" + cmd + ".webp"), MessageType.sticker, { quoted: msg, mimetype: Mimetype.webp });
+                                break;
+
+                            case "csk":
+                                let senders = msg.participant
+                                if (senders == '') {
+                                    for (let i = 0; i < 10; i++) {
+                                        console.log("sending " + cmd + " sticker." + i);
+                                        conn.sendMessage(msg.key.remoteJid, fs.readFileSync("stickers/" + cmd + ".webp"), MessageType.sticker, { mimetype: Mimetype.webp });
+
+                                    }
+                                }
+                                else {
+                                    console.log("sending " + cmd + " sticker." + i);
+                                    conn.sendMessage(msg.key.remoteJid, fs.readFileSync("stickers/" + cmd + ".webp"), MessageType.sticker, { quoted: msg, mimetype: Mimetype.webp });
+
+                                }
+                                console.log([senders])
+
                                 break;
 
                             case "helpme":
@@ -1068,7 +1122,7 @@ async function connectWA() {
                                     }
                                     else {
                                         const noofmem = (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length;
-                                        await conn.sendMessage(msg.key.remoteJid, "Total Votes : "+ (votesfor+votesagainst) + "/"+noofmem+"\nVotes For : "+ (votesfor) + "/"+noofmem+"\nVotes Against : "+ (votesagainst) + "/"+noofmem, MessageType.text, { quoted : msg});
+                                        await conn.sendMessage(msg.key.remoteJid, "Total Votes : " + (votesfor + votesagainst) + "/" + noofmem + "\nVotes For : " + (votesfor) + "/" + noofmem + "\nVotes Against : " + (votesagainst) + "/" + noofmem, MessageType.text, { quoted: msg });
                                     }
                                 }
                                 break;
@@ -1096,7 +1150,7 @@ async function connectWA() {
                                     }
                                     else {
                                         const noofmem = (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length;
-                                        await conn.sendMessage(msg.key.remoteJid, "Total Votes : "+ (votesfor+votesagainst) + "/"+noofmem+"\nVotes For : "+ (votesfor) + "/"+noofmem+"\nVotes Against : "+ (votesagainst) + "/"+noofmem, MessageType.text, { quoted : msg});
+                                        await conn.sendMessage(msg.key.remoteJid, "Total Votes : " + (votesfor + votesagainst) + "/" + noofmem + "\nVotes For : " + (votesfor) + "/" + noofmem + "\nVotes Against : " + (votesagainst) + "/" + noofmem, MessageType.text, { quoted: msg });
                                     }
                                 }
                                 break;
