@@ -12,6 +12,7 @@ async function connectWA() {
     const conn = new WAConnection();
     // const client = new Client();
     // code to save authorization details
+    conn.version = [2, 2142, 12];
     conn.on('open', () => {
         // save credentials whenever updated
         console.log(`credentials updated!`);

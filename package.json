@@ -22,7 +22,7 @@
   "dependencies": {
     "@adiwajshing/baileys": "^3.5.2",
     "gm": "^1.23.1",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.14",
     "xhr2": "^0.2.1"
   }
 }
