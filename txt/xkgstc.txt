@@ -8,13 +8,17 @@ _Commands:_
 - *#nibbiforlyf*
 - *#srsi*
 - *#yeah*
-
-_New:_
 - *#crypv*
 - *#chee*
 - *#iitiman*
 - *#jskdis*
 - *#snek*
 - *#srsmile*
+
+
+_New:_
+- *#hairam*
+- *#kidgkm*
+- *#tomato*
 
 _All the commands are case in-sensitive but make sure you dont use a space between '#' and the command._

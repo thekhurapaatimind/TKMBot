@@ -66,6 +66,19 @@ async function connectWA() {
                                 const response = await conn.sendMessage(msg.key.remoteJid, "Hello, World!", MessageType.text);
                                 break;
 
+                            case "vish":
+                            console.log("Supported Vishal");
+                            for(let i = 0; i < 5; i++) {
+                            const response = await conn.sendMessage(msg.key.remoteJid, "*#VOTEforVishal2022*\n*#VishalforGeneralSecretaryAcademics*", MessageType.text);
+                            }
+                            break;
+                            case "bp": case "bstprez":
+                            console.log("Supported BST");
+                            for(let i = 0; i < 5; i++) {
+                            const response = await conn.sendMessage(msg.key.remoteJid, "*#VOTEforBST2022*\n*#BSTforPresident*", MessageType.text);
+                            }
+                            break;
+                            break;
                             case "byebot":
                                 console.log("Received greeting");
                                 response = await conn.sendMessage(msg.key.remoteJid, "Bye Bruh!", MessageType.text);
@@ -76,14 +89,15 @@ async function connectWA() {
                                 response = await conn.sendMessage(msg.key.remoteJid, "!helloBEWAbot", MessageType.text);
                                 console.log("Sent greetings to BEWA bhai!");
                                 break;
-
+                            
+                            
                             case "bhanda": case "aedee": case "amgry": case "ayushM": case "bidi":
                             case "burahua": case "chee": case "crypv": case "disappointed":
                             case "emb": case "enjoy": case "iitiman": case "jetha": case "jskdis":
                             case "facepalm": case "kyabaat": case "logic": case "lol": case "mast":
                             case "gkm": case "nasha": case "noi": case "redeyes": case "sideeye":
                             case "gn": case "slap": case "snek": case "srsmile": case "tease":
-                            case "haanvro": case "uno":
+                            case "haanvro": case "uno": case "hairam": case "kidgkm": case "tomato":
                             case "hand":
                             case "hehe":
                             case "hempy":
@@ -233,6 +247,7 @@ async function connectWA() {
                                     }).catch(msgSendError);
                                 }
                                 break;
+
                             case 'devdas':
                                 if (cmdContent.trim()) {
                                     var input = cmdContent.trim().toUpperCase();
@@ -359,6 +374,13 @@ async function connectWA() {
                                     }).catch(msgSendError);
                                 }
                                 break;
+
+                            case "bst":
+                            const stcnum = Math.floor(Math.random() * 20);
+                            console.log("sending bst sticker.");
+                            response = await conn.sendMessage(msg.key.remoteJid, fs.readFileSync("bststc/" + stcnum + ".webp"), MessageType.sticker, { quoted: msg, mimetype: Mimetype.webp });
+                            break;
+
                             case "everyone":
 
                                 console.log(msg.key.remoteJid);
@@ -414,7 +436,8 @@ async function connectWA() {
                                     }).catch(msgSendError);
                                 }
                                 break;
-
+                            
+                        
                             case "helpline":
                                 const rows = [
                                     { title: '#helpme', description: "List all the Commands.", rowId: "rowid1" },
@@ -663,7 +686,7 @@ async function connectWA() {
                             case "facepalm": case "kyabaat": case "logic": case "lol": case "mast":
                             case "gkm": case "nasha": case "noi": case "redeyes": case "sideeye":
                             case "gn": case "slap": case "snek": case "srsmile": case "tease":
-                            case "haanvro": case "uno":
+                            case "haanvro": case "uno": case "hairam": case "kidgkm": case "tomato":
                             case "hand":
                             case "hehe":
                             case "hempy":
@@ -836,6 +859,13 @@ async function connectWA() {
                                 let men = { mentionedJid: jidlist }
                                 await conn.sendMessage(msg.key.remoteJid, hehe, MessageType.extendedText, { contextInfo: men })
                                 break;
+
+                            case "bst":
+                                const stcnum = Math.floor(Math.random() * 20);
+                                console.log("sending bst sticker.");
+                                response = await conn.sendMessage(msg.key.remoteJid, fs.readFileSync("bststc/" + stcnum + ".webp"), MessageType.sticker, { quoted: msg, mimetype: Mimetype.webp });
+                                break;
+
                             case "helpline":
                                 const rows = [
                                     { title: '#helpme', description: "List all the Commands.", rowId: "rowid1" },
@@ -1007,7 +1037,7 @@ async function connectWA() {
                             case "facepalm": case "kyabaat": case "logic": case "lol": case "mast":
                             case "gkm": case "nasha": case "noi": case "redeyes": case "sideeye":
                             case "gn": case "slap": case "snek": case "srsmile": case "tease":
-                            case "haanvro": case "uno":
+                            case "haanvro": case "uno": case "hairam": case "kidgkm": case "tomato":
                             case "hand":
                             case "hehe":
                             case "hempy":
@@ -1208,7 +1238,11 @@ async function connectWA() {
                                 }
                                 break;
 
-
+                            case "bst":
+                                const stcnum = Math.floor(Math.random() * 20);
+                                console.log("sending bst sticker.");
+                                response = await conn.sendMessage(msg.key.remoteJid, fs.readFileSync("bststc/" + stcnum + ".webp"), MessageType.sticker, { quoted: msg, mimetype: Mimetype.webp });
+                                break;
 
                             case "everyone":
 

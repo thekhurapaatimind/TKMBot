@@ -14,10 +14,12 @@ Example: #who is fit b
 Use cs for CSE, ce for CE, mm for MEMS;
 Example: #who is CSE Topper cs
 
-*╠➥ #xkgstc:* Lists all the xkg╠➥only stickers currently available on the bot.
+*╠➥ #xkgstc:* Lists all the xkg-only stickers currently available on the bot.
 
-*╠➥ #helpxkg:* Lists all the available xkg╠➥only commands of the bot.
+*╠➥ #bst:* Send any random BST-Signature Sticker.
+
+*╠➥ #helpxkg:* Lists all the available xkg-only commands of the bot.
 
 *╠➥ #helpme:* Lists all the available commands of the bot.
 
-_All the commands are case in╠➥sensitive but make sure you dont use a space between '#' and the command._
+_All the commands are case in=sensitive but make sure you dont use a space between '#' and the command._
