@@ -1140,6 +1140,34 @@ async function connectWA() {
                   });
 
                 break;
+              
+                case "tts":
+                    let tagMsgType = Object.keys(msg.message.extendedTextMessage.contextInfo.quotedMessage)[0];
+                    if(tagMsgType === MessageType.text) {
+                        console.log("Received tagged TTS");
+                        let ogMsg = msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation;
+                        var outFile = new gTTS(ogMsg, "en");
+                        outFile.save("./outFile.mp3", (err, result) => {
+                            if(err) {
+                                console.log("ERROR in converting to audio: " + err);
+                            }
+                            else {
+                                console.log("Converted to TTS");
+                                conn.sendMessage(msg.key.remoteJid, {url: "./outFile.mp3"}, MessageType.audio, {quoted:msg, mimetype: Mimetype.mp4Audio, ptt: true}).then((response) => {
+                                    console.log("Message sent");
+                                    fs.unlink("./outFile.mp3", (err) => {
+                                        if(err) {console.log("Error in deleting tts audio file: " + err);}
+                                    });
+                                }).catch(msgSendError);
+                            }
+                        });
+                        break;
+                        
+                    }
+                    else {
+                        conn.sendMessage(msg.key.remoteJid, "*BEWAbot:* Tag a text message!", MessageType.text).then((response) => console.log("Message rejected: Non-text message tagged")).catch(msgSendError);
+                    }
+                    break;
 
               case "sed":
                 console.log("Received sorrow");
