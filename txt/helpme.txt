@@ -27,6 +27,8 @@ _Commands:_
 
 *╠➥ #helpme:* Lists all the available commands of the bot.
 
+*╠➥ #tts:* Convert Text to Speech.
+
 *╠➥ #helpline:* Lists all the available commands of the bot with a prefix syntax.
 
 *╠➥ #whatsnew:* Check the latest updates of the bot.

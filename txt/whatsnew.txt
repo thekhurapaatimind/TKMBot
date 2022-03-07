@@ -1,10 +1,5 @@
 *TKM-Bot Latest Features:*
 
-╠➥ Added a new feature : Now you can kick a member by conducting poles in the group.
-    Command Syntax and Description :
-    *#votekick<space>@919876543210:* 
-This command conducts a poll to kick the mentioned member. If the votes in favour are more than 50% then the member is kicked.
-
-╠➥ Added the command *#whatsnew* to display all the latest updates.
+╠➥ Added a new feature : Added Text To Speech Function, use #tts<space>Text
 
 ╠➥ Updated the list of stickers.
