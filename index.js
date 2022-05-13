@@ -232,7 +232,42 @@ async function connectWA() {
                   MessageType.text
                 );
                 break;
-
+                case "vote" :
+                  if(msg.key.fromMe) {
+                  let myself = msg.key.participant;
+                  // console.log(res);
+                  // let info = Object.keys(msg.key.remoteJid)[0];
+                  console.log("Reached");
+                  conn.groupMetadata(msg.key.remoteJid)
+                  .then(async (meta) => {
+                      console.log(meta.participants);
+                      meta.participants.forEach((part) => {
+                          if(part.id !== myself) {
+                            conn.sendMessage(
+                              part.id,
+                              "http://gymkhanaelection.iiti.ac.in/ \n\nReminder to cast your vote!\n*Please DO VOTE*", // load a gif and send it
+                              MessageType.text
+                            );
+                              // fs.readFile("./txt/cc.txt", async (err, data) => {
+                              //     if(err) {console.log("error in opening file: " + err);}
+                              //     else {
+                              //         // conn.sendMessage(
+                              //         //     part.id, 
+                              //         //     fs.readFileSync("./stickers/aedee.webp"), 
+                              //         //     MessageType.image,
+                              //         //     {
+                              //         //         caption: data
+                              //         //     }
+                              //         // )
+                              //         conn.sendMessage(part.id, data);
+                              //     }
+                              // });
+                          }
+                      });
+                      console.log("Sent dm to every group member");
+                  });
+              }
+              break;
               case "hbd":
                 console.log("wished bday");
                 const replies2 = [
@@ -1858,905 +1893,905 @@ async function connectWA() {
                 );
             }
           }
-        } else {
-          console.log("list");
-          let msgText = msg.message.listResponseMessage.title;
-          if (msgText.startsWith("#")) {
-            // console.log("triggered");
-            const cmd = msgText.split(" ")[0].substring(1).toLowerCase();
-            let cmdContent = msgText.substring(msgText.indexOf(" ") + 1);
-            // console.log(cmd);
-            switch (cmd) {
-              case "hellobot":
-                console.log("Received greeting");
-                const response = await conn.sendMessage(
-                  msg.key.remoteJid,
-                  "Hello, World!",
-                  MessageType.text
-                );
-                break;
+        // } else {
+        //   console.log("list");
+        //   let msgText = msg.message.listResponseMessage.title;
+        //   if (msgText.startsWith("#")) {
+        //     // console.log("triggered");
+        //     const cmd = msgText.split(" ")[0].substring(1).toLowerCase();
+        //     let cmdContent = msgText.substring(msgText.indexOf(" ") + 1);
+        //     // console.log(cmd);
+        //     switch (cmd) {
+        //       case "hellobot":
+        //         console.log("Received greeting");
+        //         const response = await conn.sendMessage(
+        //           msg.key.remoteJid,
+        //           "Hello, World!",
+        //           MessageType.text
+        //         );
+        //         break;
 
-              case "byebot":
-                console.log("Received greeting");
-                response = await conn.sendMessage(
-                  msg.key.remoteJid,
-                  "Bye Bruh!",
-                  MessageType.text
-                );
-                break;
+        //       case "byebot":
+        //         console.log("Received greeting");
+        //         response = await conn.sendMessage(
+        //           msg.key.remoteJid,
+        //           "Bye Bruh!",
+        //           MessageType.text
+        //         );
+        //         break;
 
-              case "myself":
-                // console.log("Command content: \"" + cmdContent + "\"");
-                if (cmdContent.trim()) {
-                  const response = await conn.sendMessage(
-                    msg.key.remoteJid,
-                    "Hello " + cmdContent.trim().toUpperCase() + "! Wassup?",
-                    MessageType.text
-                  );
-                } else {
-                  conn
-                    .sendMessage(
-                      msg.key.remoteJid,
-                      "*#myself syntax:*\n\n#myself_<Your Name>",
-                      MessageType.text,
-                      { quoted: msg }
-                    )
-                    .then((res) => {
-                      console.log("Sent myself command help message.");
-                    })
-                    .catch(msgSendError);
-                }
-                break;
+        //       case "myself":
+        //         // console.log("Command content: \"" + cmdContent + "\"");
+        //         if (cmdContent.trim()) {
+        //           const response = await conn.sendMessage(
+        //             msg.key.remoteJid,
+        //             "Hello " + cmdContent.trim().toUpperCase() + "! Wassup?",
+        //             MessageType.text
+        //           );
+        //         } else {
+        //           conn
+        //             .sendMessage(
+        //               msg.key.remoteJid,
+        //               "*#myself syntax:*\n\n#myself_<Your Name>",
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             )
+        //             .then((res) => {
+        //               console.log("Sent myself command help message.");
+        //             })
+        //             .catch(msgSendError);
+        //         }
+        //         break;
 
-              case "hellotkm-bot":
-                console.log("Received greetings from BEWA bhai!");
-                response = await conn.sendMessage(
-                  msg.key.remoteJid,
-                  "!helloBEWAbot",
-                  MessageType.text
-                );
-                console.log("Sent greetings to BEWA bhai!");
-                break;
+        //       case "hellotkm-bot":
+        //         console.log("Received greetings from BEWA bhai!");
+        //         response = await conn.sendMessage(
+        //           msg.key.remoteJid,
+        //           "!helloBEWAbot",
+        //           MessageType.text
+        //         );
+        //         console.log("Sent greetings to BEWA bhai!");
+        //         break;
 
-              case "sticker":
-                console.log(
-                  "Received request for converting tagged sticker to image."
-                );
-                let messId =
-                  msg.message.extendedTextMessage.contextInfo.stanzaId;
-                conn
-                  .loadMessage(msg.key.remoteJid, messId)
-                  .then((stickerMsg) => {
-                    // console.log(origSticker);
-                    conn
-                      .downloadMediaMessage(stickerMsg, "stream")
-                      .then((imgStream) => {
-                        gm(imgStream)
-                          .resize(512, 512)
-                          .background("none")
-                          .gravity("Center")
-                          .extent(512, 512)
-                          .write("sticker.webp", async (err) => {
-                            if (err) {
-                              console.log(
-                                "ERROR in converting to sticker: " + err
-                              );
-                            } else {
-                              console.log("Converted sticker");
-                              // const response = await conn.sendMessage(msg.key.remoteJid, fs.readFileSync('./sticker.webp'), MessageType.sticker, {quoted:msg, mimetype:Mimetype.webp});
-                              // console.log("Message sent");
-                              conn
-                                .sendMessage(
-                                  msg.key.remoteJid,
-                                  fs.readFileSync("./sticker.webp"),
-                                  MessageType.sticker,
-                                  { quoted: msg, mimetype: Mimetype.webp }
-                                )
-                                .then((response) => {
-                                  console.log("Message sent");
-                                  fs.unlink("./sticker.webp", (err) => {
-                                    if (err) {
-                                      console.log(
-                                        "Error in deleting sticker: " + err
-                                      );
-                                    }
-                                  });
-                                })
-                                .catch((err) => {
-                                  console.log(
-                                    "Error in sending sticker message: " + err
-                                  );
-                                });
-                            }
-                          });
-                      })
-                      .catch((err) => {
-                        console.log("ERROR in downloading sticker: " + err);
-                      });
-                  })
-                  .catch((err) => {
-                    console.log("ERROR in getting message: " + err);
-                  });
+        //       case "sticker":
+        //         console.log(
+        //           "Received request for converting tagged sticker to image."
+        //         );
+        //         let messId =
+        //           msg.message.extendedTextMessage.contextInfo.stanzaId;
+        //         conn
+        //           .loadMessage(msg.key.remoteJid, messId)
+        //           .then((stickerMsg) => {
+        //             // console.log(origSticker);
+        //             conn
+        //               .downloadMediaMessage(stickerMsg, "stream")
+        //               .then((imgStream) => {
+        //                 gm(imgStream)
+        //                   .resize(512, 512)
+        //                   .background("none")
+        //                   .gravity("Center")
+        //                   .extent(512, 512)
+        //                   .write("sticker.webp", async (err) => {
+        //                     if (err) {
+        //                       console.log(
+        //                         "ERROR in converting to sticker: " + err
+        //                       );
+        //                     } else {
+        //                       console.log("Converted sticker");
+        //                       // const response = await conn.sendMessage(msg.key.remoteJid, fs.readFileSync('./sticker.webp'), MessageType.sticker, {quoted:msg, mimetype:Mimetype.webp});
+        //                       // console.log("Message sent");
+        //                       conn
+        //                         .sendMessage(
+        //                           msg.key.remoteJid,
+        //                           fs.readFileSync("./sticker.webp"),
+        //                           MessageType.sticker,
+        //                           { quoted: msg, mimetype: Mimetype.webp }
+        //                         )
+        //                         .then((response) => {
+        //                           console.log("Message sent");
+        //                           fs.unlink("./sticker.webp", (err) => {
+        //                             if (err) {
+        //                               console.log(
+        //                                 "Error in deleting sticker: " + err
+        //                               );
+        //                             }
+        //                           });
+        //                         })
+        //                         .catch((err) => {
+        //                           console.log(
+        //                             "Error in sending sticker message: " + err
+        //                           );
+        //                         });
+        //                     }
+        //                   });
+        //               })
+        //               .catch((err) => {
+        //                 console.log("ERROR in downloading sticker: " + err);
+        //               });
+        //           })
+        //           .catch((err) => {
+        //             console.log("ERROR in getting message: " + err);
+        //           });
 
-                break;
+        //         break;
 
-              case "sed":
-                console.log("Received sorrow");
-                const replies = [
-                  "I respectfully don't care! 🙂",
-                  "Looks Like It's F**K This Shit O'Clock 🗿",
-                  "Me: Finally I'm Happy.\n\nLife: Lol, wait a sec 🌚",
-                  "*Deja Poo*\n\n_adj._ The feeling of having heard this crap before.",
-                  ".....On the bright side, You are not addicted to Cocaine 🐸",
-                  "Sometimes I look at people and think:\n*Really? That's the sperm that won?* 🙄",
-                  "I don't run from my problems. I sit on my sofa, play on my phone and ignore them.\nLike an adult 🤷‍♂️🤷‍♂️",
-                  "Paytm ₹100 to me and u'll be fine 🙃",
-                ];
-                response = await conn.sendMessage(
-                  msg.key.remoteJid,
-                  replies[Math.floor(Math.random() * 8)],
-                  MessageType.text
-                );
-                break;
-              case "gay":
-                if (cmdContent.trim()) {
-                  var input = cmdContent.trim().toUpperCase();
-                  if (input == "JASKARAN" || input == "JSK") {
-                    const gayPercentage = Math.floor(Math.random() * 11) + 91;
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      cmdContent.trim().toUpperCase() +
-                        " is " +
-                        gayPercentage +
-                        "% Gay 👬🏻",
-                      MessageType.text
-                    );
-                  } else if (
-                    input == "ABHINAV" ||
-                    input == "TKM" ||
-                    input == "ABHEENAV"
-                  ) {
-                    const gayPercentage = Math.floor(Math.random() * 11);
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      cmdContent.trim().toUpperCase() +
-                        " is " +
-                        gayPercentage +
-                        "% Gay 👬🏻",
-                      MessageType.text
-                    );
-                  } else {
-                    const gayPercentage = Math.floor(Math.random() * 100);
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      cmdContent.trim().toUpperCase() +
-                        " is " +
-                        gayPercentage +
-                        "% Gay 👬🏻",
-                      MessageType.text
-                    );
-                  }
-                } else {
-                  conn
-                    .sendMessage(
-                      msg.key.remoteJid,
-                      "*Gay Meter Syntax:*\n\n#gay<space>Name",
-                      MessageType.text,
-                      { quoted: msg }
-                    )
-                    .then((res) => {
-                      console.log("Sent gay command help message.");
-                    })
-                    .catch(msgSendError);
-                }
-                break;
-              case "devdas":
-                if (cmdContent.trim()) {
-                  var input = cmdContent.trim().toUpperCase();
-                  if (input == "JASKARAN" || input == "JSK") {
-                    const gayPercentage = Math.floor(Math.random() * 11) + 91;
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      cmdContent.trim().toUpperCase() +
-                        " is " +
-                        gayPercentage +
-                        "% Devdas 🥰",
-                      MessageType.text
-                    );
-                  } else if (
-                    input == "ABHINAV" ||
-                    input == "TKM" ||
-                    input == "ABHEENAV"
-                  ) {
-                    const gayPercentage = Math.floor(Math.random() * 11);
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      cmdContent.trim().toUpperCase() +
-                        " is " +
-                        gayPercentage +
-                        "% Devdas 🥰",
-                      MessageType.text
-                    );
-                  } else {
-                    const gayPercentage = Math.floor(Math.random() * 100);
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      cmdContent.trim().toUpperCase() +
-                        " is " +
-                        gayPercentage +
-                        "% Devdas 🥰",
-                      MessageType.text
-                    );
-                  }
-                } else {
-                  conn
-                    .sendMessage(
-                      msg.key.remoteJid,
-                      "*Majnu Meter Syntax:*\n\n#devdas<space>Name",
-                      MessageType.text,
-                      { quoted: msg }
-                    )
-                    .then((res) => {
-                      console.log("Sent majnu command help message.");
-                    })
-                    .catch(msgSendError);
-                }
-                break;
+        //       case "sed":
+        //         console.log("Received sorrow");
+        //         const replies = [
+        //           "I respectfully don't care! 🙂",
+        //           "Looks Like It's F**K This Shit O'Clock 🗿",
+        //           "Me: Finally I'm Happy.\n\nLife: Lol, wait a sec 🌚",
+        //           "*Deja Poo*\n\n_adj._ The feeling of having heard this crap before.",
+        //           ".....On the bright side, You are not addicted to Cocaine 🐸",
+        //           "Sometimes I look at people and think:\n*Really? That's the sperm that won?* 🙄",
+        //           "I don't run from my problems. I sit on my sofa, play on my phone and ignore them.\nLike an adult 🤷‍♂️🤷‍♂️",
+        //           "Paytm ₹100 to me and u'll be fine 🙃",
+        //         ];
+        //         response = await conn.sendMessage(
+        //           msg.key.remoteJid,
+        //           replies[Math.floor(Math.random() * 8)],
+        //           MessageType.text
+        //         );
+        //         break;
+        //       case "gay":
+        //         if (cmdContent.trim()) {
+        //           var input = cmdContent.trim().toUpperCase();
+        //           if (input == "JASKARAN" || input == "JSK") {
+        //             const gayPercentage = Math.floor(Math.random() * 11) + 91;
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               cmdContent.trim().toUpperCase() +
+        //                 " is " +
+        //                 gayPercentage +
+        //                 "% Gay 👬🏻",
+        //               MessageType.text
+        //             );
+        //           } else if (
+        //             input == "ABHINAV" ||
+        //             input == "TKM" ||
+        //             input == "ABHEENAV"
+        //           ) {
+        //             const gayPercentage = Math.floor(Math.random() * 11);
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               cmdContent.trim().toUpperCase() +
+        //                 " is " +
+        //                 gayPercentage +
+        //                 "% Gay 👬🏻",
+        //               MessageType.text
+        //             );
+        //           } else {
+        //             const gayPercentage = Math.floor(Math.random() * 100);
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               cmdContent.trim().toUpperCase() +
+        //                 " is " +
+        //                 gayPercentage +
+        //                 "% Gay 👬🏻",
+        //               MessageType.text
+        //             );
+        //           }
+        //         } else {
+        //           conn
+        //             .sendMessage(
+        //               msg.key.remoteJid,
+        //               "*Gay Meter Syntax:*\n\n#gay<space>Name",
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             )
+        //             .then((res) => {
+        //               console.log("Sent gay command help message.");
+        //             })
+        //             .catch(msgSendError);
+        //         }
+        //         break;
+        //       case "devdas":
+        //         if (cmdContent.trim()) {
+        //           var input = cmdContent.trim().toUpperCase();
+        //           if (input == "JASKARAN" || input == "JSK") {
+        //             const gayPercentage = Math.floor(Math.random() * 11) + 91;
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               cmdContent.trim().toUpperCase() +
+        //                 " is " +
+        //                 gayPercentage +
+        //                 "% Devdas 🥰",
+        //               MessageType.text
+        //             );
+        //           } else if (
+        //             input == "ABHINAV" ||
+        //             input == "TKM" ||
+        //             input == "ABHEENAV"
+        //           ) {
+        //             const gayPercentage = Math.floor(Math.random() * 11);
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               cmdContent.trim().toUpperCase() +
+        //                 " is " +
+        //                 gayPercentage +
+        //                 "% Devdas 🥰",
+        //               MessageType.text
+        //             );
+        //           } else {
+        //             const gayPercentage = Math.floor(Math.random() * 100);
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               cmdContent.trim().toUpperCase() +
+        //                 " is " +
+        //                 gayPercentage +
+        //                 "% Devdas 🥰",
+        //               MessageType.text
+        //             );
+        //           }
+        //         } else {
+        //           conn
+        //             .sendMessage(
+        //               msg.key.remoteJid,
+        //               "*Majnu Meter Syntax:*\n\n#devdas<space>Name",
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             )
+        //             .then((res) => {
+        //               console.log("Sent majnu command help message.");
+        //             })
+        //             .catch(msgSendError);
+        //         }
+        //         break;
 
-              case "hbd":
-                console.log("wished bday");
-                const replies2 = [
-                  "Q: Do you by any chance know what constantly goes up, but never ever comes down?\n\n\n\n\n\n\n\n\n\nA: Your ever-growing age!",
-                  "Q: What does the average cat love to eat at her birthday party?\n\n\n\n\n\n\n\n\n\nA: Mice cream.",
-                  "Q: What do Jesus Christ and Mahatma Gandhi both have in common?\n\n\n\n\n\n\n\n\n\nA: They were both born on public holidays.",
-                  "Q: What do people who have the most birthdays have in common?\n\n\n\n\n\n\n\n\n\nA: Old age.",
-                  "Q: Why did couples have problems with each other before the 2000s?\n\n\n\n\n\n\n\n\n\nA: Because Facebook reminder didn’t exist at that time to remind them of their partners’ birthdays.",
-                  "Q: What do chickens love to eat at their birthday parties?\n\n\n\n\n\n\n\n\n\nA: Coop-cakes!",
-                  "Q: Where can you find the best birthday present for your cat?\n\n\n\n\n\n\n\n\n\nA: Inside a cat-alogue!",
-                  "Q: What type of cake was served at the birthday party of Penny from the Big Bang Theory?\n\n\n\n\n\n\n\n\n\nA: Cheese cake.",
-                  "Q: What gift do you always receive on your birthday?\n\n\n\n\n\n\n\n\n\nA: A brand new age.",
-                ];
-                if (cmdContent.trim()) {
-                  response = await conn.sendMessage(
-                    msg.key.remoteJid,
-                    "Happy Birthday " +
-                      cmdContent.trim().toUpperCase() +
-                      "!!🎂🎂🎊🎉🥳🥳\n\n*Quick Question:*\n\n" +
-                      replies2[Math.floor(Math.random() * 9)],
-                    MessageType.text
-                  );
-                } else {
-                  conn
-                    .sendMessage(
-                      msg.key.remoteJid,
-                      "Happy Birthday!! 🎂🎂🎊🎉🥳🥳\n\n*Quick Question:*\n\n" +
-                        replies2[Math.floor(Math.random() * 9)],
-                      MessageType.text,
-                      { quoted: msg }
-                    )
-                    .then((res) => {
-                      console.log("Sent bday wish without name.");
-                    })
-                    .catch(msgSendError);
-                }
-                break;
+        //       case "hbd":
+        //         console.log("wished bday");
+        //         const replies2 = [
+        //           "Q: Do you by any chance know what constantly goes up, but never ever comes down?\n\n\n\n\n\n\n\n\n\nA: Your ever-growing age!",
+        //           "Q: What does the average cat love to eat at her birthday party?\n\n\n\n\n\n\n\n\n\nA: Mice cream.",
+        //           "Q: What do Jesus Christ and Mahatma Gandhi both have in common?\n\n\n\n\n\n\n\n\n\nA: They were both born on public holidays.",
+        //           "Q: What do people who have the most birthdays have in common?\n\n\n\n\n\n\n\n\n\nA: Old age.",
+        //           "Q: Why did couples have problems with each other before the 2000s?\n\n\n\n\n\n\n\n\n\nA: Because Facebook reminder didn’t exist at that time to remind them of their partners’ birthdays.",
+        //           "Q: What do chickens love to eat at their birthday parties?\n\n\n\n\n\n\n\n\n\nA: Coop-cakes!",
+        //           "Q: Where can you find the best birthday present for your cat?\n\n\n\n\n\n\n\n\n\nA: Inside a cat-alogue!",
+        //           "Q: What type of cake was served at the birthday party of Penny from the Big Bang Theory?\n\n\n\n\n\n\n\n\n\nA: Cheese cake.",
+        //           "Q: What gift do you always receive on your birthday?\n\n\n\n\n\n\n\n\n\nA: A brand new age.",
+        //         ];
+        //         if (cmdContent.trim()) {
+        //           response = await conn.sendMessage(
+        //             msg.key.remoteJid,
+        //             "Happy Birthday " +
+        //               cmdContent.trim().toUpperCase() +
+        //               "!!🎂🎂🎊🎉🥳🥳\n\n*Quick Question:*\n\n" +
+        //               replies2[Math.floor(Math.random() * 9)],
+        //             MessageType.text
+        //           );
+        //         } else {
+        //           conn
+        //             .sendMessage(
+        //               msg.key.remoteJid,
+        //               "Happy Birthday!! 🎂🎂🎊🎉🥳🥳\n\n*Quick Question:*\n\n" +
+        //                 replies2[Math.floor(Math.random() * 9)],
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             )
+        //             .then((res) => {
+        //               console.log("Sent bday wish without name.");
+        //             })
+        //             .catch(msgSendError);
+        //         }
+        //         break;
 
-              case "bhanda":
-              case "aedee":
-              case "amgry":
-              case "ayushM":
-              case "bidi":
-              case "burahua":
-              case "chee":
-              case "crypv":
-              case "disappointed":
-              case "emb":
-              case "enjoy":
-              case "iitiman":
-              case "jetha":
-              case "jskdis":
-              case "facepalm":
-              case "kyabaat":
-              case "logic":
-              case "lol":
-              case "mast":
-              case "gkm":
-              case "nasha":
-              case "noi":
-              case "redeyes":
-              case "sideeye":
-              case "gn":
-              case "slap":
-              case "snek":
-              case "srsmile":
-              case "tease":
-              case "haanvro":
-              case "uno":
-              case "hairam":
-              case "kidgkm":
-              case "tomato":
-              case "hand":
-              case "hehe":
-              case "hempy":
-              case "hmm":
-              case "isee":
-              case "koini":
-              case "namaste":
-              case "nibbi":
-              case "nibbiforlyf":
-              case "party":
-              case "sabmaloom":
-              case "smug":
-              case "smuggrin":
-              case "srsi":
-              case "sunkarburalaga":
-              case "themks":
-              case "ufff":
-              case "yeah":
-                console.log("sending " + cmd + " sticker.");
-                response = await conn.sendMessage(
-                  msg.key.remoteJid,
-                  fs.readFileSync("stickers/" + cmd + ".webp"),
-                  MessageType.sticker,
-                  { quoted: msg, mimetype: Mimetype.webp }
-                );
-                break;
+        //       case "bhanda":
+        //       case "aedee":
+        //       case "amgry":
+        //       case "ayushM":
+        //       case "bidi":
+        //       case "burahua":
+        //       case "chee":
+        //       case "crypv":
+        //       case "disappointed":
+        //       case "emb":
+        //       case "enjoy":
+        //       case "iitiman":
+        //       case "jetha":
+        //       case "jskdis":
+        //       case "facepalm":
+        //       case "kyabaat":
+        //       case "logic":
+        //       case "lol":
+        //       case "mast":
+        //       case "gkm":
+        //       case "nasha":
+        //       case "noi":
+        //       case "redeyes":
+        //       case "sideeye":
+        //       case "gn":
+        //       case "slap":
+        //       case "snek":
+        //       case "srsmile":
+        //       case "tease":
+        //       case "haanvro":
+        //       case "uno":
+        //       case "hairam":
+        //       case "kidgkm":
+        //       case "tomato":
+        //       case "hand":
+        //       case "hehe":
+        //       case "hempy":
+        //       case "hmm":
+        //       case "isee":
+        //       case "koini":
+        //       case "namaste":
+        //       case "nibbi":
+        //       case "nibbiforlyf":
+        //       case "party":
+        //       case "sabmaloom":
+        //       case "smug":
+        //       case "smuggrin":
+        //       case "srsi":
+        //       case "sunkarburalaga":
+        //       case "themks":
+        //       case "ufff":
+        //       case "yeah":
+        //         console.log("sending " + cmd + " sticker.");
+        //         response = await conn.sendMessage(
+        //           msg.key.remoteJid,
+        //           fs.readFileSync("stickers/" + cmd + ".webp"),
+        //           MessageType.sticker,
+        //           { quoted: msg, mimetype: Mimetype.webp }
+        //         );
+        //         break;
 
-              case "csk":
-                let senders = msg.participant;
-                if (senders == "") {
-                  for (let i = 0; i < 10; i++) {
-                    console.log("sending " + cmd + " sticker." + i);
-                    conn.sendMessage(
-                      msg.key.remoteJid,
-                      fs.readFileSync("stickers/" + cmd + ".webp"),
-                      MessageType.sticker,
-                      { mimetype: Mimetype.webp }
-                    );
-                  }
-                } else {
-                  console.log("sending " + cmd + " sticker." + i);
-                  conn.sendMessage(
-                    msg.key.remoteJid,
-                    fs.readFileSync("stickers/" + cmd + ".webp"),
-                    MessageType.sticker,
-                    { quoted: msg, mimetype: Mimetype.webp }
-                  );
-                }
-                console.log([senders]);
+        //       case "csk":
+        //         let senders = msg.participant;
+        //         if (senders == "") {
+        //           for (let i = 0; i < 10; i++) {
+        //             console.log("sending " + cmd + " sticker." + i);
+        //             conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               fs.readFileSync("stickers/" + cmd + ".webp"),
+        //               MessageType.sticker,
+        //               { mimetype: Mimetype.webp }
+        //             );
+        //           }
+        //         } else {
+        //           console.log("sending " + cmd + " sticker." + i);
+        //           conn.sendMessage(
+        //             msg.key.remoteJid,
+        //             fs.readFileSync("stickers/" + cmd + ".webp"),
+        //             MessageType.sticker,
+        //             { quoted: msg, mimetype: Mimetype.webp }
+        //           );
+        //         }
+        //         console.log([senders]);
 
-                break;
+        //         break;
 
-              case "helpme":
-              case "stickerlist":
-              case "xkgstc":
-              case "whatsnew":
-              case "whatsnew":
-                // WIP
+        //       case "helpme":
+        //       case "stickerlist":
+        //       case "xkgstc":
+        //       case "whatsnew":
+        //       case "whatsnew":
+        //         // WIP
 
-                fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
-                  if (err) {
-                    console.log("error in opening file: " + err);
-                  } else {
-                    conn
-                      .sendMessage(
-                        msg.key.remoteJid,
-                        data.toString(),
-                        MessageType.text
-                      )
-                      .then((res) => {
-                        console.log("Sent " + cmd + " commands list.");
-                      })
-                      .catch(msgSendError);
-                  }
-                });
-                break;
+        //         fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
+        //           if (err) {
+        //             console.log("error in opening file: " + err);
+        //           } else {
+        //             conn
+        //               .sendMessage(
+        //                 msg.key.remoteJid,
+        //                 data.toString(),
+        //                 MessageType.text
+        //               )
+        //               .then((res) => {
+        //                 console.log("Sent " + cmd + " commands list.");
+        //               })
+        //               .catch(msgSendError);
+        //           }
+        //         });
+        //         break;
 
-              case "meter":
-                if (cmdContent.trim()) {
-                  var find = cmdContent.trim().split(" ")[0].toUpperCase();
-                  var name =
-                    cmdContent.indexOf(" ") < 0
-                      ? ""
-                      : cmdContent.substring(cmdContent.indexOf(" ") + 1);
-                  if (name == "" || name == " ") name = "SENDER";
-                  if (name == "JASKARAN" || name == "JSK") {
-                    const percentage = Math.floor(Math.random() * 11) + 91;
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      name.trim().toUpperCase() +
-                        " IS " +
-                        percentage +
-                        "% " +
-                        find +
-                        "!",
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  } else if (
-                    input == "ABHINAV" ||
-                    input == "TKM" ||
-                    input == "ABHEENAV"
-                  ) {
-                    const percentage = Math.floor(Math.random() * 11);
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      name.trim().toUpperCase() +
-                        " IS " +
-                        percentage +
-                        "% " +
-                        find +
-                        "!",
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  } else {
-                    const percentage = Math.floor(Math.random() * 100);
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      name.trim().toUpperCase() +
-                        " IS " +
-                        percentage +
-                        "% " +
-                        find +
-                        "!",
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  }
-                } else {
-                  conn
-                    .sendMessage(
-                      msg.key.remoteJid,
-                      "*Meter Syntax:*\n\n#meter<space>To_Find<space>Name",
-                      MessageType.text,
-                      { quoted: msg }
-                    )
-                    .then((res) => {
-                      console.log("Sent meter command help message.");
-                    })
-                    .catch(msgSendError);
-                }
-                break;
+        //       case "meter":
+        //         if (cmdContent.trim()) {
+        //           var find = cmdContent.trim().split(" ")[0].toUpperCase();
+        //           var name =
+        //             cmdContent.indexOf(" ") < 0
+        //               ? ""
+        //               : cmdContent.substring(cmdContent.indexOf(" ") + 1);
+        //           if (name == "" || name == " ") name = "SENDER";
+        //           if (name == "JASKARAN" || name == "JSK") {
+        //             const percentage = Math.floor(Math.random() * 11) + 91;
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               name.trim().toUpperCase() +
+        //                 " IS " +
+        //                 percentage +
+        //                 "% " +
+        //                 find +
+        //                 "!",
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           } else if (
+        //             input == "ABHINAV" ||
+        //             input == "TKM" ||
+        //             input == "ABHEENAV"
+        //           ) {
+        //             const percentage = Math.floor(Math.random() * 11);
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               name.trim().toUpperCase() +
+        //                 " IS " +
+        //                 percentage +
+        //                 "% " +
+        //                 find +
+        //                 "!",
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           } else {
+        //             const percentage = Math.floor(Math.random() * 100);
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               name.trim().toUpperCase() +
+        //                 " IS " +
+        //                 percentage +
+        //                 "% " +
+        //                 find +
+        //                 "!",
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           }
+        //         } else {
+        //           conn
+        //             .sendMessage(
+        //               msg.key.remoteJid,
+        //               "*Meter Syntax:*\n\n#meter<space>To_Find<space>Name",
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             )
+        //             .then((res) => {
+        //               console.log("Sent meter command help message.");
+        //             })
+        //             .catch(msgSendError);
+        //         }
+        //         break;
 
-              case "pass":
-                if (inputparticipant == "") {
-                  await conn.sendMessage(
-                    msg.key.remoteJid,
-                    "No one nominated for the polls.",
-                    MessageType.text
-                  );
-                } else {
-                  votesfor++;
-                  console.log(votesfor);
-                  if (
-                    votesfor >
-                    (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
-                      .participants.length /
-                      2
-                  ) {
-                    console.log(votesfor);
-                    console.log(
-                      (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
-                        .participants.length
-                    );
-                    console.log(
-                      (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
-                        .subject
-                    );
-                    console.log([
-                      inputparticipant.replace("@", "") + "@s.whatsapp.net",
-                    ]);
-                    console.log(inputparticipant);
-                    // conn.sendMessage(msg.key.remoteJid, "A total of " + votesfor + " out of " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length + " have voted to kick " + inputparticipant + " from " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject), { contextInfo: { mentionedJid: [inputparticipant.replace('@', '') + '@s.whatsapp.net'] } }
-                    await conn
-                      .sendMessage(
-                        msg.key.remoteJid,
-                        "A total of " +
-                          votesfor +
-                          " out of " +
-                          (
-                            await conn.fetchGroupMetadataFromWA(
-                              msg.key.remoteJid
-                            )
-                          ).participants.length +
-                          " have voted to kick ❌ " +
-                          inputparticipant +
-                          " from " +
-                          (
-                            await conn.fetchGroupMetadataFromWA(
-                              msg.key.remoteJid
-                            )
-                          ).subject +
-                          " 😈",
-                        MessageType.text,
-                        {
-                          contextInfo: {
-                            mentionedJid: [
-                              inputparticipant.replace("@", "") +
-                                "@s.whatsapp.net",
-                            ],
-                          },
-                        }
-                      )
-                      .then((res) => {
-                        console.log("Vote Results sent.");
-                      })
-                      .catch(msgSendError);
+        //       case "pass":
+        //         if (inputparticipant == "") {
+        //           await conn.sendMessage(
+        //             msg.key.remoteJid,
+        //             "No one nominated for the polls.",
+        //             MessageType.text
+        //           );
+        //         } else {
+        //           votesfor++;
+        //           console.log(votesfor);
+        //           if (
+        //             votesfor >
+        //             (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
+        //               .participants.length /
+        //               2
+        //           ) {
+        //             console.log(votesfor);
+        //             console.log(
+        //               (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
+        //                 .participants.length
+        //             );
+        //             console.log(
+        //               (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
+        //                 .subject
+        //             );
+        //             console.log([
+        //               inputparticipant.replace("@", "") + "@s.whatsapp.net",
+        //             ]);
+        //             console.log(inputparticipant);
+        //             // conn.sendMessage(msg.key.remoteJid, "A total of " + votesfor + " out of " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length + " have voted to kick " + inputparticipant + " from " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject), { contextInfo: { mentionedJid: [inputparticipant.replace('@', '') + '@s.whatsapp.net'] } }
+        //             await conn
+        //               .sendMessage(
+        //                 msg.key.remoteJid,
+        //                 "A total of " +
+        //                   votesfor +
+        //                   " out of " +
+        //                   (
+        //                     await conn.fetchGroupMetadataFromWA(
+        //                       msg.key.remoteJid
+        //                     )
+        //                   ).participants.length +
+        //                   " have voted to kick ❌ " +
+        //                   inputparticipant +
+        //                   " from " +
+        //                   (
+        //                     await conn.fetchGroupMetadataFromWA(
+        //                       msg.key.remoteJid
+        //                     )
+        //                   ).subject +
+        //                   " 😈",
+        //                 MessageType.text,
+        //                 {
+        //                   contextInfo: {
+        //                     mentionedJid: [
+        //                       inputparticipant.replace("@", "") +
+        //                         "@s.whatsapp.net",
+        //                     ],
+        //                   },
+        //                 }
+        //               )
+        //               .then((res) => {
+        //                 console.log("Vote Results sent.");
+        //               })
+        //               .catch(msgSendError);
 
-                    await conn
-                      .groupRemove(msg.key.remoteJid, [
-                        inputparticipant.replace("@", "") + "@s.whatsapp.net",
-                      ])
-                      .then((modi) => {
-                        console.log("Removed the voted participant.");
-                        console.log("Data received: " + modi);
-                      })
-                      .catch((err) => {
-                        console.log("ERROR in removing member: " + err);
-                      });
-                    votesfor = 0;
-                    votesagainst = 0;
-                    inputparticipant = "";
-                  } else {
-                    const noofmem = (
-                      await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
-                    ).participants.length;
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      "Total Votes : " +
-                        (votesfor + votesagainst) +
-                        "/" +
-                        noofmem +
-                        "\nVotes For : " +
-                        votesfor +
-                        "/" +
-                        noofmem +
-                        "\nVotes Against : " +
-                        votesagainst +
-                        "/" +
-                        noofmem,
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  }
-                }
-                break;
+        //             await conn
+        //               .groupRemove(msg.key.remoteJid, [
+        //                 inputparticipant.replace("@", "") + "@s.whatsapp.net",
+        //               ])
+        //               .then((modi) => {
+        //                 console.log("Removed the voted participant.");
+        //                 console.log("Data received: " + modi);
+        //               })
+        //               .catch((err) => {
+        //                 console.log("ERROR in removing member: " + err);
+        //               });
+        //             votesfor = 0;
+        //             votesagainst = 0;
+        //             inputparticipant = "";
+        //           } else {
+        //             const noofmem = (
+        //               await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
+        //             ).participants.length;
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               "Total Votes : " +
+        //                 (votesfor + votesagainst) +
+        //                 "/" +
+        //                 noofmem +
+        //                 "\nVotes For : " +
+        //                 votesfor +
+        //                 "/" +
+        //                 noofmem +
+        //                 "\nVotes Against : " +
+        //                 votesagainst +
+        //                 "/" +
+        //                 noofmem,
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           }
+        //         }
+        //         break;
 
-              case "do_not_pass":
-                if (inputparticipant == "") {
-                  await conn.sendMessage(
-                    msg.key.remoteJid,
-                    "No one nominated for the polls.",
-                    MessageType.text
-                  );
-                } else {
-                  votesagainst++;
-                  console.log(votesagainst);
-                  if (
-                    votesagainst >
-                    (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
-                      .participants.length /
-                      2
-                  ) {
-                    console.log(
-                      (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
-                        .participants.length
-                    );
-                    console.log(
-                      (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
-                        .subject
-                    );
-                    console.log([
-                      inputparticipant.replace("@", "") + "@s.whatsapp.net",
-                    ]);
-                    console.log(inputparticipant);
-                    // conn.sendMessage(msg.key.remoteJid, "A total of " + votesagainst + " out of " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length + " have voted to kick " + inputparticipant + " from " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject), { contextInfo: { mentionedJid: [inputparticipant.replace('@', '') + '@s.whatsapp.net'] } }
-                    await conn
-                      .sendMessage(
-                        msg.key.remoteJid,
-                        "A total of " +
-                          votesagainst +
-                          " out of " +
-                          (
-                            await conn.fetchGroupMetadataFromWA(
-                              msg.key.remoteJid
-                            )
-                          ).participants.length +
-                          " have denied to kick ✔️ " +
-                          inputparticipant +
-                          " from " +
-                          (
-                            await conn.fetchGroupMetadataFromWA(
-                              msg.key.remoteJid
-                            )
-                          ).subject +
-                          "and hence the motion has been desolved 🤷‍♂️.",
-                        MessageType.text,
-                        {
-                          contextInfo: {
-                            mentionedJid: [
-                              inputparticipant.replace("@", "") +
-                                "@s.whatsapp.net",
-                            ],
-                          },
-                        }
-                      )
-                      .then((res) => {
-                        console.log("Vote Results sent.");
-                      })
-                      .catch(msgSendError);
-                    votesfor = 0;
-                    votesagainst = 0;
-                    inputparticipant = "";
-                  } else {
-                    const noofmem = (
-                      await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
-                    ).participants.length;
-                    await conn.sendMessage(
-                      msg.key.remoteJid,
-                      "Total Votes : " +
-                        (votesfor + votesagainst) +
-                        "/" +
-                        noofmem +
-                        "\nVotes For : " +
-                        votesfor +
-                        "/" +
-                        noofmem +
-                        "\nVotes Against : " +
-                        votesagainst +
-                        "/" +
-                        noofmem,
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  }
-                }
-                break;
+        //       case "do_not_pass":
+        //         if (inputparticipant == "") {
+        //           await conn.sendMessage(
+        //             msg.key.remoteJid,
+        //             "No one nominated for the polls.",
+        //             MessageType.text
+        //           );
+        //         } else {
+        //           votesagainst++;
+        //           console.log(votesagainst);
+        //           if (
+        //             votesagainst >
+        //             (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
+        //               .participants.length /
+        //               2
+        //           ) {
+        //             console.log(
+        //               (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
+        //                 .participants.length
+        //             );
+        //             console.log(
+        //               (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid))
+        //                 .subject
+        //             );
+        //             console.log([
+        //               inputparticipant.replace("@", "") + "@s.whatsapp.net",
+        //             ]);
+        //             console.log(inputparticipant);
+        //             // conn.sendMessage(msg.key.remoteJid, "A total of " + votesagainst + " out of " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).participants.length + " have voted to kick " + inputparticipant + " from " + (await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)).subject), { contextInfo: { mentionedJid: [inputparticipant.replace('@', '') + '@s.whatsapp.net'] } }
+        //             await conn
+        //               .sendMessage(
+        //                 msg.key.remoteJid,
+        //                 "A total of " +
+        //                   votesagainst +
+        //                   " out of " +
+        //                   (
+        //                     await conn.fetchGroupMetadataFromWA(
+        //                       msg.key.remoteJid
+        //                     )
+        //                   ).participants.length +
+        //                   " have denied to kick ✔️ " +
+        //                   inputparticipant +
+        //                   " from " +
+        //                   (
+        //                     await conn.fetchGroupMetadataFromWA(
+        //                       msg.key.remoteJid
+        //                     )
+        //                   ).subject +
+        //                   "and hence the motion has been desolved 🤷‍♂️.",
+        //                 MessageType.text,
+        //                 {
+        //                   contextInfo: {
+        //                     mentionedJid: [
+        //                       inputparticipant.replace("@", "") +
+        //                         "@s.whatsapp.net",
+        //                     ],
+        //                   },
+        //                 }
+        //               )
+        //               .then((res) => {
+        //                 console.log("Vote Results sent.");
+        //               })
+        //               .catch(msgSendError);
+        //             votesfor = 0;
+        //             votesagainst = 0;
+        //             inputparticipant = "";
+        //           } else {
+        //             const noofmem = (
+        //               await conn.fetchGroupMetadataFromWA(msg.key.remoteJid)
+        //             ).participants.length;
+        //             await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               "Total Votes : " +
+        //                 (votesfor + votesagainst) +
+        //                 "/" +
+        //                 noofmem +
+        //                 "\nVotes For : " +
+        //                 votesfor +
+        //                 "/" +
+        //                 noofmem +
+        //                 "\nVotes Against : " +
+        //                 votesagainst +
+        //                 "/" +
+        //                 noofmem,
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           }
+        //         }
+        //         break;
 
-              case "who":
-                console.log("answered the who question");
+        //       case "who":
+        //         console.log("answered the who question");
 
-                console.log(msg.key.remoteJid);
-                const groupMem2 = await conn.fetchGroupMetadataFromWA(
-                  msg.key.remoteJid
-                );
-                let num = groupMem2.participants.length;
+        //         console.log(msg.key.remoteJid);
+        //         const groupMem2 = await conn.fetchGroupMetadataFromWA(
+        //           msg.key.remoteJid
+        //         );
+        //         let num = groupMem2.participants.length;
 
-                let jidlist2 = [];
-                let list = [];
-                for (let i = 0; i < num; i++) {
-                  list[i] =
-                    "@" +
-                    groupMem2.participants[i].jid.replace(
-                      "@s.whatsapp.net",
-                      ""
-                    );
-                  jidlist2[i] = groupMem2.participants[i].jid;
-                }
-                console.log(jidlist2);
-                console.log(list);
-                if (cmdContent.trim()) {
-                  if (
-                    cmdContent.charAt(cmdContent.length - 2) == " " &&
-                    (cmdContent.charAt(cmdContent.length - 1) == "b" ||
-                      cmdContent.charAt(cmdContent.length - 1) == "B" ||
-                      cmdContent.charAt(cmdContent.length - 1) == "m" ||
-                      cmdContent.charAt(cmdContent.length - 1) == "M")
-                  ) {
-                    var users = [
-                      "Abhinav",
-                      "Aryan",
-                      "Arjun",
-                      "Ayush",
-                      "Govind",
-                      "Jaskaran",
-                      "Saral",
-                      "Nachiket",
-                      "Omkar",
-                      "Paras",
-                      "Prashant",
-                      "Sahil",
-                    ];
-                    response = await conn.sendMessage(
-                      msg.key.remoteJid,
-                      users[Math.floor(Math.random() * 12)].toUpperCase() +
-                        " " +
-                        cmdContent
-                          .trim()
-                          .toUpperCase()
-                          .substring(0, cmdContent.length - 1),
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  } else if (
-                    cmdContent.charAt(cmdContent.length - 2) == " " &&
-                    (cmdContent.charAt(cmdContent.length - 1) == "g" ||
-                      cmdContent.charAt(cmdContent.length - 1) == "G" ||
-                      cmdContent.charAt(cmdContent.length - 1) == "f" ||
-                      cmdContent.charAt(cmdContent.length - 1) == "F")
-                  ) {
-                    var users = [
-                      "Anushka",
-                      "Bhavya",
-                      "Riya!",
-                      "Subha",
-                      "Sreyashi",
-                    ];
-                    response = await conn.sendMessage(
-                      msg.key.remoteJid,
-                      users[Math.floor(Math.random() * 5)].toUpperCase() +
-                        " " +
-                        cmdContent
-                          .trim()
-                          .toUpperCase()
-                          .substring(0, cmdContent.length - 1),
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  } else if (
-                    cmdContent.charAt(cmdContent.length - 3) == " " &&
-                    cmdContent.charAt(cmdContent.length - 2) == "c" &&
-                    cmdContent.charAt(cmdContent.length - 1) == "s"
-                  ) {
-                    var users = [
-                      "Anushka",
-                      "Arjun",
-                      "Ayush",
-                      "Govind",
-                      "Jaskaran",
-                      "Saral",
-                      "Subha",
-                      "Omkar",
-                      "Prashant",
-                    ];
-                    response = await conn.sendMessage(
-                      msg.key.remoteJid,
-                      users[Math.floor(Math.random() * 9)].toUpperCase() +
-                        " " +
-                        cmdContent
-                          .trim()
-                          .toUpperCase()
-                          .substring(0, cmdContent.length - 2),
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  } else if (
-                    cmdContent.charAt(cmdContent.length - 3) == " " &&
-                    cmdContent.charAt(cmdContent.length - 2) == "c" &&
-                    cmdContent.charAt(cmdContent.length - 1) == "e"
-                  ) {
-                    var users = [
-                      "Bhavya",
-                      "Riya!",
-                      "Nachiket",
-                      "Paras",
-                      "Sreyashi",
-                    ];
-                    response = await conn.sendMessage(
-                      msg.key.remoteJid,
-                      users[Math.floor(Math.random() * 5)].toUpperCase() +
-                        " " +
-                        cmdContent
-                          .trim()
-                          .toUpperCase()
-                          .substring(0, cmdContent.length - 2),
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  } else if (
-                    cmdContent.charAt(cmdContent.length - 3) == " " &&
-                    cmdContent.charAt(cmdContent.length - 2) == "m" &&
-                    cmdContent.charAt(cmdContent.length - 1) == "m"
-                  ) {
-                    var users = ["Aryan", "Sahil"];
-                    response = await conn.sendMessage(
-                      msg.key.remoteJid,
-                      users[Math.floor(Math.random() * 2)].toUpperCase() +
-                        " " +
-                        cmdContent
-                          .trim()
-                          .toUpperCase()
-                          .substring(0, cmdContent.length - 2),
-                      MessageType.text,
-                      { quoted: msg }
-                    );
-                  } else {
-                    const random = Math.floor(Math.random() * num);
-                    console.log(random);
-                    console.log(list[random]);
-                    console.log(jidlist2[random]);
-                    // var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
-                    response = await conn.sendMessage(
-                      msg.key.remoteJid,
-                      list[random].toUpperCase() +
-                        " " +
-                        cmdContent.trim().toUpperCase(),
-                      MessageType.text,
-                      { contextInfo: { mentionedJid: [jidlist2[random]] } }
-                    );
-                  }
-                } else {
-                  conn
-                    .sendMessage(
-                      msg.key.remoteJid,
-                      "*#who syntax:*\n\n#who_<Your Question>",
-                      MessageType.text,
-                      { quoted: msg }
-                    )
-                    .then((res) => {
-                      console.log("Sent who command help message.");
-                    })
-                    .catch(msgSendError);
-                }
-                break;
+        //         let jidlist2 = [];
+        //         let list = [];
+        //         for (let i = 0; i < num; i++) {
+        //           list[i] =
+        //             "@" +
+        //             groupMem2.participants[i].jid.replace(
+        //               "@s.whatsapp.net",
+        //               ""
+        //             );
+        //           jidlist2[i] = groupMem2.participants[i].jid;
+        //         }
+        //         console.log(jidlist2);
+        //         console.log(list);
+        //         if (cmdContent.trim()) {
+        //           if (
+        //             cmdContent.charAt(cmdContent.length - 2) == " " &&
+        //             (cmdContent.charAt(cmdContent.length - 1) == "b" ||
+        //               cmdContent.charAt(cmdContent.length - 1) == "B" ||
+        //               cmdContent.charAt(cmdContent.length - 1) == "m" ||
+        //               cmdContent.charAt(cmdContent.length - 1) == "M")
+        //           ) {
+        //             var users = [
+        //               "Abhinav",
+        //               "Aryan",
+        //               "Arjun",
+        //               "Ayush",
+        //               "Govind",
+        //               "Jaskaran",
+        //               "Saral",
+        //               "Nachiket",
+        //               "Omkar",
+        //               "Paras",
+        //               "Prashant",
+        //               "Sahil",
+        //             ];
+        //             response = await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               users[Math.floor(Math.random() * 12)].toUpperCase() +
+        //                 " " +
+        //                 cmdContent
+        //                   .trim()
+        //                   .toUpperCase()
+        //                   .substring(0, cmdContent.length - 1),
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           } else if (
+        //             cmdContent.charAt(cmdContent.length - 2) == " " &&
+        //             (cmdContent.charAt(cmdContent.length - 1) == "g" ||
+        //               cmdContent.charAt(cmdContent.length - 1) == "G" ||
+        //               cmdContent.charAt(cmdContent.length - 1) == "f" ||
+        //               cmdContent.charAt(cmdContent.length - 1) == "F")
+        //           ) {
+        //             var users = [
+        //               "Anushka",
+        //               "Bhavya",
+        //               "Riya!",
+        //               "Subha",
+        //               "Sreyashi",
+        //             ];
+        //             response = await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               users[Math.floor(Math.random() * 5)].toUpperCase() +
+        //                 " " +
+        //                 cmdContent
+        //                   .trim()
+        //                   .toUpperCase()
+        //                   .substring(0, cmdContent.length - 1),
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           } else if (
+        //             cmdContent.charAt(cmdContent.length - 3) == " " &&
+        //             cmdContent.charAt(cmdContent.length - 2) == "c" &&
+        //             cmdContent.charAt(cmdContent.length - 1) == "s"
+        //           ) {
+        //             var users = [
+        //               "Anushka",
+        //               "Arjun",
+        //               "Ayush",
+        //               "Govind",
+        //               "Jaskaran",
+        //               "Saral",
+        //               "Subha",
+        //               "Omkar",
+        //               "Prashant",
+        //             ];
+        //             response = await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               users[Math.floor(Math.random() * 9)].toUpperCase() +
+        //                 " " +
+        //                 cmdContent
+        //                   .trim()
+        //                   .toUpperCase()
+        //                   .substring(0, cmdContent.length - 2),
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           } else if (
+        //             cmdContent.charAt(cmdContent.length - 3) == " " &&
+        //             cmdContent.charAt(cmdContent.length - 2) == "c" &&
+        //             cmdContent.charAt(cmdContent.length - 1) == "e"
+        //           ) {
+        //             var users = [
+        //               "Bhavya",
+        //               "Riya!",
+        //               "Nachiket",
+        //               "Paras",
+        //               "Sreyashi",
+        //             ];
+        //             response = await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               users[Math.floor(Math.random() * 5)].toUpperCase() +
+        //                 " " +
+        //                 cmdContent
+        //                   .trim()
+        //                   .toUpperCase()
+        //                   .substring(0, cmdContent.length - 2),
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           } else if (
+        //             cmdContent.charAt(cmdContent.length - 3) == " " &&
+        //             cmdContent.charAt(cmdContent.length - 2) == "m" &&
+        //             cmdContent.charAt(cmdContent.length - 1) == "m"
+        //           ) {
+        //             var users = ["Aryan", "Sahil"];
+        //             response = await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               users[Math.floor(Math.random() * 2)].toUpperCase() +
+        //                 " " +
+        //                 cmdContent
+        //                   .trim()
+        //                   .toUpperCase()
+        //                   .substring(0, cmdContent.length - 2),
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             );
+        //           } else {
+        //             const random = Math.floor(Math.random() * num);
+        //             console.log(random);
+        //             console.log(list[random]);
+        //             console.log(jidlist2[random]);
+        //             // var users = ["Abhinav", "Anushka", "Aryan", "Arjun", "Ayush", "Bhavya", "Govind", "Jaskaran", "Riya!", "Saral", "Subha", "Nachiket", "Omkar", "Paras", "Prashant", "Sahil", "Sreyashi"]
+        //             response = await conn.sendMessage(
+        //               msg.key.remoteJid,
+        //               list[random].toUpperCase() +
+        //                 " " +
+        //                 cmdContent.trim().toUpperCase(),
+        //               MessageType.text,
+        //               { contextInfo: { mentionedJid: [jidlist2[random]] } }
+        //             );
+        //           }
+        //         } else {
+        //           conn
+        //             .sendMessage(
+        //               msg.key.remoteJid,
+        //               "*#who syntax:*\n\n#who_<Your Question>",
+        //               MessageType.text,
+        //               { quoted: msg }
+        //             )
+        //             .then((res) => {
+        //               console.log("Sent who command help message.");
+        //             })
+        //             .catch(msgSendError);
+        //         }
+        //         break;
 
-              case "bst":
-                const stcnum = Math.floor(Math.random() * 20);
-                console.log("sending bst sticker.");
-                response = await conn.sendMessage(
-                  msg.key.remoteJid,
-                  fs.readFileSync("bststc/" + stcnum + ".webp"),
-                  MessageType.sticker,
-                  { quoted: msg, mimetype: Mimetype.webp }
-                );
-                break;
+        //       case "bst":
+        //         const stcnum = Math.floor(Math.random() * 20);
+        //         console.log("sending bst sticker.");
+        //         response = await conn.sendMessage(
+        //           msg.key.remoteJid,
+        //           fs.readFileSync("bststc/" + stcnum + ".webp"),
+        //           MessageType.sticker,
+        //           { quoted: msg, mimetype: Mimetype.webp }
+        //         );
+        //         break;
 
-              case "everyone":
-                console.log(msg.key.remoteJid);
-                const groupMem = await conn.fetchGroupMetadataFromWA(
-                  msg.key.remoteJid
-                );
-                console.log(groupMem.participants.length);
-                let hehe = "╔══✪〘 " + groupMem.subject + " 〙✪══\n";
-                let jidlist = [];
-                for (let i = 0; i < groupMem.participants.length; i++) {
-                  hehe += "╠➥";
-                  hehe += ` @${groupMem.participants[i].jid.replace(
-                    "@s.whatsapp.net",
-                    ""
-                  )}\n`;
-                  jidlist[i] = groupMem.participants[i].jid;
-                }
+        //       case "everyone":
+        //         console.log(msg.key.remoteJid);
+        //         const groupMem = await conn.fetchGroupMetadataFromWA(
+        //           msg.key.remoteJid
+        //         );
+        //         console.log(groupMem.participants.length);
+        //         let hehe = "╔══✪〘 " + groupMem.subject + " 〙✪══\n";
+        //         let jidlist = [];
+        //         for (let i = 0; i < groupMem.participants.length; i++) {
+        //           hehe += "╠➥";
+        //           hehe += ` @${groupMem.participants[i].jid.replace(
+        //             "@s.whatsapp.net",
+        //             ""
+        //           )}\n`;
+        //           jidlist[i] = groupMem.participants[i].jid;
+        //         }
 
-                hehe += "╚═〘 TKM BOT 〙";
-                // console.log(hehe);
-                // console.log(jidlist);
-                let men = { mentionedJid: jidlist };
-                await conn.sendMessage(
-                  msg.key.remoteJid,
-                  hehe,
-                  MessageType.extendedText,
-                  { contextInfo: men }
-                );
-                break;
+        //         hehe += "╚═〘 TKM BOT 〙";
+        //         // console.log(hehe);
+        //         // console.log(jidlist);
+        //         let men = { mentionedJid: jidlist };
+        //         await conn.sendMessage(
+        //           msg.key.remoteJid,
+        //           hehe,
+        //           MessageType.extendedText,
+        //           { contextInfo: men }
+        //         );
+        //         break;
 
-              case "helpme":
-              case "stickerlist":
-              case "xkgstc":
-              case "helpxkg":
-              case "whatsnew":
-                // WIP
+        //       case "helpme":
+        //       case "stickerlist":
+        //       case "xkgstc":
+        //       case "helpxkg":
+        //       case "whatsnew":
+        //         // WIP
 
-                fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
-                  if (err) {
-                    console.log("error in opening file: " + err);
-                  } else {
-                    conn
-                      .sendMessage(
-                        msg.key.remoteJid,
-                        data.toString(),
-                        MessageType.text
-                      )
-                      .then((res) => {
-                        console.log("Sent " + cmd + " commands list.");
-                      })
-                      .catch(msgSendError);
-                  }
-                });
-                break;
-            }
-          }
+        //         fs.readFile("./txt/" + cmd + ".txt", (err, data) => {
+        //           if (err) {
+        //             console.log("error in opening file: " + err);
+        //           } else {
+        //             conn
+        //               .sendMessage(
+        //                 msg.key.remoteJid,
+        //                 data.toString(),
+        //                 MessageType.text
+        //               )
+        //               .then((res) => {
+        //                 console.log("Sent " + cmd + " commands list.");
+        //               })
+        //               .catch(msgSendError);
+        //           }
+        //         });
+        //         break;
+        //     }
+        //   }
         }
       } catch (err) {
         console.log("ERROR: " + err);
